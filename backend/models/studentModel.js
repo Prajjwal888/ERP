@@ -8,10 +8,12 @@ const studentSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+
       enrollmentNo: {
         type: Number,
         required: true,
       },
+
       firstName: {
         type: String,
         required: true,
@@ -19,7 +21,6 @@ const studentSchema = new mongoose.Schema({
       middleName: {
         type: String,
         required: false,
-
       },
       lastName: {
         type: String,
