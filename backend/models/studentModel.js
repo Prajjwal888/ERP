@@ -8,17 +8,19 @@ const studentSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+
       enrollmentNo: {
         type: Number,
         required: true,
       },
+
       firstName: {
         type: String,
         required: true,
       },
       middleName: {
         type: String,
-        required: true,
+        required: false,
       },
       lastName: {
         type: String,

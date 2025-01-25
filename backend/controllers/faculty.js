@@ -1,7 +1,7 @@
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import admin from "../models/adminModel.js";
+import faculty from "../models/facultyModel.js";
 
 const loginSchema = z.object({
   loginid: z.string().min(1, "Login ID is required"),
@@ -24,7 +24,7 @@ const loginHandler = async (req, res) => {
 
   try {
     // Find user in the database
-    const user = await admin.findOne({ loginid: loginid });
+    const user = await faculty.findOne({ loginid: loginid });
     if (!user) {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
