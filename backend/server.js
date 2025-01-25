@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import adminroute from './routes/adminRoute.js';
+import studentRoute from './routes/studentRoute.js'
 import { connectDB } from './config/db.js';
 const app = express();
 const PORT=4000||process.env.PORT;
@@ -15,6 +16,7 @@ app.get('/',(req,res) => {
 connectDB(); 
 
 app.use('/api/admin',adminroute);
+app.use('/api/student',studentRoute);
 
 app.listen(PORT,() => {        
     console.log(`Server is running on port ${PORT}`);
