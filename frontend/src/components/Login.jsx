@@ -1,31 +1,34 @@
 import React, { useState } from "react";
 import { LogIn } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import {toast} from 'react-hot-toast'
+import { toast } from "react-hot-toast";
+import axios from "axios";
 const Login = ({ activeSection }) => {
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
-  const navigate=useNavigate();
-  const handleSubmit = async(e) => {
-    // e.preventDefault();
-    const response=await axios.post(`http://localhost:4000/api/${activeSection}/login`,{loginId,password});
-    if(response.data.success)
-    {
-      toast.success("Successfully Logged In");
-      if(activeSection==='Admin')
-      {
-        navigate('/admin')
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const section = activeSection.toLowerCase();
+    const loginid = Number(loginId);
+    try {
+      const response = await axios.post(
+        `http://localhost:4000/api/${section}/login`,
+        { loginid, password }
+      );
+      if (response.data.success) {
+        toast.success("Successfully Logged In");
+        if (activeSection === "Admin") {
+          navigate("/admin");
+        } else if (activeSection === "Faculty") {
+          navigate("/faculty");
+        } else {
+          navigate("/student");
+        }
       }
-      else if(activeSection==='Faculty')
-      {
-        navigate('/faculty');
-      }
-      else navigate('/student');
-    }
-    else
-    {
-      toast.error(response.data.message);
-      console.log(response.data.message);
+    } catch (error) {
+      console.log(error.response?.data?.message || error.message);
+      toast.error(error.response?.data?.message || "An error occurred!");
     }
     console.log("Login attempted with:", loginId, password, activeSection);
   };
