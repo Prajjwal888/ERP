@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import admin from "../models/adminModel.js";
 import student from "../models/studentModel.js";
+import faculty from "../models/facultyModel.js";
 
 const loginSchema = z.object({
   loginid: z.number().min(1, "Login ID is required"),
@@ -286,5 +287,138 @@ const getStudent = async (req, res) => {
   }
 };
 
+const deleteStudent = async(req,res)=>{
+  try{
+    const deletedStudent = await student.findOneAndDelete({ loginid : req.body.loginid });
+    if(!deletedStudent){
+      return res.status(400).json({
+        msg : "student doesn't exist"
+      })
+    }
+    return res.status(200).json({
+      msg : "student deleted successfuly!",
+      deletedStudent
+    })
+  }
+  catch(e){
+    return res.status(500).json({
+      msg : "error deleting student",
+      error : e.message
+    })
+  }
+}
 
-export { loginHandler , addAdmin, getAdmin, getAllAdmins, addStudent ,getStudent};
+const addFaculty = async (req, res) => {
+  const facultySchema = z.object({
+    loginid: z.number().int().min(1),
+    password: z.string().min(8),
+    employeeId: z.number().int().min(0),
+    firstName: z.string().min(1),
+    middleName: z.string().optional(),
+    lastName: z.string().min(1),
+    email: z.string().email(),
+    phoneNumber: z.number().int(),
+    department: z.string().min(1),
+    gender: z.enum(["Male", "Female", "Other"]),
+    experience: z.number().min(0),
+    post: z.string().min(1),
+    profile: z.string(),
+  });
+
+  // Validate the request body
+  const validationResult = facultySchema.safeParse(req.body);
+
+  if (!validationResult.success) {
+    return res.status(400).json({
+      msg: "Invalid inputs",
+      errors: validationResult.error.errors,
+    });
+  }
+
+  const { loginid } = req.body; // Extract `loginid` to check for existing faculty
+
+  try {
+    // Check if a faculty member with the same loginid already exists
+    const existingFaculty = await faculty.findOne({ loginid });
+    if (existingFaculty) {
+      return res.status(400).json({
+        msg: "Faculty already exists",
+      });
+    }
+
+    // Create a new faculty document
+    const newFaculty = await faculty.create(req.body);
+    return res.status(201).json({
+      msg: "Faculty created successfully!",
+      faculty: newFaculty,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      msg: "Error creating faculty",
+      error: e.message,
+    });
+  }
+};
+
+const getFaculty = async(req,res)=>{
+
+  const schema = z.object({loginid : z.number().int().min(1)});
+  const validationResult = schema.safeParse(req.body);
+  
+  if(!validationResult.success){
+    return res.status(400).json({
+      msg : "Invalid inputs",
+      error :validationResult.error.errors
+    })
+  }
+  try{
+  
+    const existingFaculty = await faculty.findOne({loginid:validationResult.data.loginid});
+    if(!existingFaculty){
+      res.status(400).json({
+        msg : "Faculty doesn't exist"
+      })
+    }
+    return res.status(200).json({
+      existingFaculty
+    })
+
+  }
+  catch(e){
+    res.status(500).json({
+      msg : "error fetching faculty",
+      error : e.message
+    })
+  }
+}
+
+const deleteFaculty = async (req, res) => {
+  try {
+    const { loginid } = req.body;
+
+
+    // Try to find and delete the faculty using the loginid
+    const deletedFaculty = await faculty.findOneAndDelete({ loginid });
+
+    if (!deletedFaculty) {
+      return res.status(400).json({
+        msg: "Faculty doesn't exist"
+      });
+    }
+
+    return res.status(200).json({
+      msg: "Faculty deleted successfully",
+      deletedFaculty
+    });
+  } catch (e) {
+    return res.status(500).json({
+      msg: "Error deleting faculty",
+      error: e.message
+    });
+  }
+};
+
+
+
+
+export { loginHandler , addAdmin, getAdmin, getAllAdmins, addStudent ,getStudent ,addFaculty ,getFaculty ,deleteFaculty , deleteStudent};
