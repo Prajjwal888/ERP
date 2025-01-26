@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import faculty from "../models/facultyModel.js";
 
 const loginSchema = z.object({
-  loginid: z.string().min(1, "Login ID is required"),
+  loginid: z.number().min(1, "Login ID is required"),
   password: z.string().min(1, "Password is required"),
 });
 
