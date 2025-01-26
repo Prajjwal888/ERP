@@ -6,10 +6,10 @@ const AdminDashboard = () => {
   return (
     <>
         <div className='admin-header'>
-        <Header />
+        <Header role='Admin'/>
         </div>
         <div className='admin-dashboard'>
-        <Navbar />
+        <Navbar role='admin'/>
         </div>
     </>
   )
