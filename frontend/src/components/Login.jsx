@@ -16,15 +16,16 @@ const Login = ({ activeSection }) => {
         `http://localhost:4000/api/${section}/login`,
         { loginid, password }
       );
-      if (response.data.success) {
-        toast.success("Successfully Logged In");
-        if (activeSection === "Admin") {
-          navigate("/admin");
-        } else if (activeSection === "Faculty") {
-          navigate("/faculty");
-        } else {
-          navigate("/student");
-        }
+      if (!localStorage.getItem("token")) {
+        localStorage.setItem("token", response.data.token);
+      }
+      toast.success("Successfully Logged In");
+      if (activeSection === "Admin") {
+        navigate("/admin");
+      } else if (activeSection === "Faculty") {
+        navigate("/faculty");
+      } else if (activeSection === "Student") {
+        navigate("/student");
       }
     } catch (error) {
       console.log(error.response?.data?.message || error.message);
