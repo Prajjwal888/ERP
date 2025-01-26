@@ -1,5 +1,5 @@
 import React from "react";
-import { BookOpen, Users, GraduationCap } from "lucide-react";
+import { ShieldCheck, Users, GraduationCap } from "lucide-react";
 const LoginNavbar = ({ activeSection, setActiveSection }) => {
   const handleNavClick = (section) => {
     setActiveSection(section);
@@ -9,7 +9,6 @@ const LoginNavbar = ({ activeSection, setActiveSection }) => {
       <nav className="bg-blue-600 p-4">
         <div className="flex justify-center space-x-8">
           <a
-            href="#student"
             onClick={() => handleNavClick("Student")}
             className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
               activeSection === "Student"
@@ -21,7 +20,6 @@ const LoginNavbar = ({ activeSection, setActiveSection }) => {
             Student
           </a>
           <a
-            href="#faculty"
             onClick={() => handleNavClick("Faculty")}
             className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
               activeSection === "Faculty"
@@ -33,7 +31,6 @@ const LoginNavbar = ({ activeSection, setActiveSection }) => {
             Faculty
           </a>
           <a
-            href="#admin"
             onClick={() => handleNavClick("Admin")}
             className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
               activeSection === "Admin"
@@ -41,7 +38,7 @@ const LoginNavbar = ({ activeSection, setActiveSection }) => {
                 : "text-white hover:bg-blue-700"
             }`}
           >
-            <BookOpen className="w-4 h-4 mr-2" />
+            <ShieldCheck className="w-4 h-4 mr-2" />
             Admin
           </a>
         </div>
