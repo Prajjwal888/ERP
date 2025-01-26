@@ -1,8 +1,11 @@
 import express from 'express';
-import {loginHandler} from '../controllers/faculty.js';
-const facultyroute = express.Router();
+import {loginHandler,getFaculty,getStudent} from '../controllers/faculty.js';
+import facultyAuthMiddleware from '../middleware/facultyMiddleware.js';
+const facultyRouter = express.Router();
 
-facultyroute.post('/login', loginHandler);
+facultyRouter.post('/login', loginHandler);
+facultyRouter.get('/getFaculty',facultyAuthMiddleware,getFaculty);
+facultyRouter.get('/getStudent',facultyAuthMiddleware,getStudent);
 
-export default facultyroute;
+export default facultyRouter;
 
