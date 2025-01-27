@@ -141,7 +141,7 @@ const getAdmin = async (req, res) => {
   try {
     // Select only the required fields and exclude sensitive ones
     const existingAdmin = await admin.findOne({ loginid }).select(
-      "-_id -password -createdAt -updatedAt"
+      "-password -createdAt -updatedAt"
     );
     
     if (!existingAdmin) {
@@ -268,7 +268,7 @@ const getStudent = async (req, res) => {
   try {
     const existingStudent = await student
       .findOne({ loginid })
-      .select("-_id -password -createdAt -updatedAt"); // Exclude sensitive fields
+      .select("-password -createdAt -updatedAt"); // Exclude sensitive fields
     
     if (!existingStudent) {
       return res.status(404).json({
@@ -417,6 +417,9 @@ const deleteFaculty = async (req, res) => {
     });
   }
 };
+const addNotice = async(req,res)=>{
+
+}
 
 
 
