@@ -9,8 +9,8 @@ export default function Header({role}) {
         if(localStorage.getItem('token'))
         {
             localStorage.removeItem('token');
-            navigate('/');
         }
+        navigate('/');
     }
     return (
         <header className="flex justify-between items-center p-4 bg-white border-b border-gray-200 font-sans">
