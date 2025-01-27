@@ -1,18 +1,17 @@
-import notice from "../models/noticeModel";
+import notice from "../models/noticeModel.js";
 
 const getNotice = async (req, res) => {
 try{
-    const userRole =req.user;
+    const userRole =req.profile;
     let notices;
     if(userRole=='admin'){
         notices=await notice.find({});
     }
-    else if (role==='faculty'){
+    else if (userRole==='faculty'){
         notices=await notice.find({noticeTo: { $in: ['faculty', 'student'] },});
     }
-    else if(role==='student'){
+    else if(userRole==='student'){
         notices=await notice.find({noticeTo: { $in: ['student'] },});
-
 }
 else{
     return res.status(400).json({message:'No Notices To Show'});
@@ -24,10 +23,7 @@ catch(error){
     console.error("Error fetching notices:", error);
     res.status(500).json({ message: "Internal Server Error" });
 }
-
-
 };
-
 const updateNotice = async (req, res) => {
     try {
       
@@ -38,9 +34,9 @@ const updateNotice = async (req, res) => {
       if (!id) {
         return res.status(400).json({ error: "Notice ID is required." });
       }
-      const updatedNotice = await Notice.findByIdAndUpdate(
+      const updatedNotice = await notice.findByIdAndUpdate(
         id,
-        { title, description, noticeTo },
+        { title, description, noticeTo},
         { new: true } 
       );
       if (!updatedNotice) {
@@ -60,4 +56,4 @@ const updateNotice = async (req, res) => {
       });
     }
   };
-export default { getNotice, updateNotice };  
+export  { getNotice, updateNotice };  

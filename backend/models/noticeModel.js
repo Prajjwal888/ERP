@@ -2,20 +2,20 @@ import mongoose from "mongoose";
 
 const noticeSchema =mongoose.Schema({
     title:{
-        type:string,
+        type:String,
         required:true,
     },
     description:{
-        type:string,
+        type:String,
         required:true,
     },
     noticeFrom:{
-        type:string,
+        type:String,
         required:true,
         enum: ['admin', 'faculty']
     },
     noticeTo:{
-        type:string,
+        type:String,
         required:true,
         enum: ['admin', 'student', 'faculty'],
     },
