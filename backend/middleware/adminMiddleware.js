@@ -27,6 +27,7 @@ const adminMiddleware = async (req, res, next) => {
 
         // Attach the admin's _id to the req object
         req.id = isAdmin.id;
+        req.profile=isAdmin.profile;
 
         next(); // Proceed to the next middleware or route handler
     } catch (err) {
