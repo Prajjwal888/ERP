@@ -39,10 +39,14 @@ const loginHandler = async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: user._id },
+      { id: user._id,
+        profile: user.profile,  // Add the profile data here
+       },
       process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );
+
+    
 
     // Send success response
     res.json({
