@@ -35,7 +35,9 @@ export const loginHandler = async (req, res) => {
     }
 
     const token = jwt.sign(
-        { id: student._id },
+        { id: existingStudent._id, 
+          profile: existingStudent.profile,  // Add the profile data here
+        },
         process.env.JWT_SECRET,
         { expiresIn: "1h" } // Token expires in 1 hour
       );

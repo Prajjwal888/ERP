@@ -38,7 +38,10 @@ const loginHandler = async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: existingFaculty._id },
+      { 
+        id: existingFaculty._id, 
+        profile: existingFaculty.profile,  // Add the profile data here
+      },
       process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );
