@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Plus, X } from "lucide-react";
 
-const NoticeComponent = () => {
+const Notice = () => {
   const [isAddingNotice, setIsAddingNotice] = useState(false);
   const [notices, setNotices] = useState([]);
   const [formValues, setFormValues] = useState({
@@ -105,4 +105,4 @@ const NoticeComponent = () => {
   );
 };
 
-export default NoticeComponent;
+export default Notice;
