@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import faculty from "../models/facultyModel.js";
 import student from "../models/studentModel.js";
-
+import timeTable from "../models/timeTableModel.js";
 const loginSchema = z.object({
   loginid: z.number().min(1, "Login ID is required"),
   password: z.string().min(1, "Password is required"),
@@ -100,4 +100,32 @@ res.status(200).json(studentData);
   }
 };
 
-export { loginHandler,getFaculty,getStudent};
+const puttimeTable = async (req, res) => {  
+ try{
+  const {branch,semester} =req.body;
+  const image= req.file?req.file.path:null;
+
+  if(!image){
+    return res.status(400).json({message:"Image is required"});
+  }
+
+  const newtimetable = new timeTable
+  (
+{
+branch,
+semester, 
+image,
+}
+  );
+  await newtimetable.save();
+  res.status(201).json(newtimetable);
+ 
+ }
+  catch(error){
+    console.error("Error creating timetable:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+
+export { loginHandler,getFaculty,getStudent,puttimeTable};
