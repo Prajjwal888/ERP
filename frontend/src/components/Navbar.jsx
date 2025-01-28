@@ -15,8 +15,7 @@ const iconComponents = {
   BadgePercent
 };
 
-const Navbar = ({ role }) => {
-  const [activeTab, setActiveTab] = useState("Profile");
+const Navbar = ({ role ,activeTab,setActiveTab}) => {
   const data = role === 'admin' ? admin : role === 'faculty' ? faculty : student;
   
   return (

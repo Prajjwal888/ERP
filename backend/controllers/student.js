@@ -2,8 +2,9 @@ import student from "../models/studentModel.js";
 import { z } from "zod";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import timeTable from "../models/timeTableModel.js";
 
-export const loginHandler = async (req, res) => {
+const loginHandler = async (req, res) => {
   const signinSchema = z.object({
     loginid: z.number().int(),
     password: z.string().min(8),
@@ -54,6 +55,8 @@ export const loginHandler = async (req, res) => {
     });
   }
 };
+
+
 
 // export const signupHandler = async (req, res) => {
 //     const signupSchema = z.object({
@@ -117,4 +120,27 @@ export const loginHandler = async (req, res) => {
 //     }
 //   };
   
+const getTimeTable = async (req, res) => {
+  try {
+    const id = req.id; 
+    const profile = req.profile;
+    const studata = await student.findOne({ _id: id }).select("semester branch");
+         if(!studata){
+          return res.status(400).json({message:"Student not found"});
 
+         }
+          const {branch,semester}= studata;
+
+          const timetable =await timeTable.findOne({branch,semester}).select("image");
+          if(!timetable){
+            return res.status(400).json("No timetable to show");
+
+          }
+    res.status(200).json(timetable);
+  } catch (error) {
+    console.error("Error fetching timetable:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export { loginHandler, getTimeTable };
