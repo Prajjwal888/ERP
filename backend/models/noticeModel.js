@@ -17,9 +17,12 @@ const noticeSchema =mongoose.Schema({
     noticeTo:{
         type:String,
         required:true,
-        enum: ['admin', 'student', 'faculty'],
+        enum: ['all', 'student', 'faculty'],
     },
-
+    issuedBy:{
+        type:String,
+        required:true,
+    }
 })
 const notice=mongoose.model('notice',noticeSchema);
 
