@@ -32,22 +32,6 @@ const adminMiddleware = async (req, res, next) => {
       msg: "Error in authentication",
     });
   }
-        if (!isAdmin) {
-            return res.status(403).json({
-                msg: "Access denied, not an admin"
-            });
-        }
-
-        // Attach the admin's _id to the req object
-        req.id = isAdmin.id;
-        req.user= isAdmin.profile
-
-        next(); // Proceed to the next middleware or route handler
-    } catch (err) {
-        return res.status(403).json({
-            msg: "Error in authentication"
-        });
-    }
 };
 
 export { adminMiddleware };
