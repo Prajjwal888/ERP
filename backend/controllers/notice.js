@@ -10,6 +10,7 @@ const addNotice = async (req, res) => {
         });
     }
     try {
+        console.log
         const newNotice = await notice.create({
             ...req.body, 
             noticeFrom: req.user, 
@@ -54,8 +55,5 @@ const deleteNotice = async (req, res) => {
             error: e.message,
         });
     }
-};
-
-
-export {addNotice,deleteNotice};
+};export {addNotice,deleteNotice};
 

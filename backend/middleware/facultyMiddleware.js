@@ -22,6 +22,7 @@ const facultyAuthMiddleware = async (req, res, next) => {
 
     // Attach the faculty details to the request object for further use
     req.facultyId = foundFaculty.id;
+    req.profile = foundFaculty.profile;
 
     
     // Proceed to the next middleware or route handler
