@@ -1,3 +1,4 @@
+
 import express from 'express';
 import {addAdmin, addFaculty, addStudent, deleteFaculty, deleteStudent, getAdmin, getAllAdmins, getFaculty, getProfile, getStudent, loginHandler} from '../controllers/admin.js';
 import { adminMiddleware } from '../middleware/adminMiddleware.js';
@@ -21,4 +22,3 @@ adminroute.get("/getProfile",adminMiddleware,getProfile)
 
 
 export default adminroute;
-
