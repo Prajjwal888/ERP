@@ -1,6 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IdCard,Phone,Mail } from 'lucide-react'
+import axios from 'axios';
 const Profile = () => {
+  const [data,setData]=useState({});
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get('http://localhost:4000/api/admin/getProfile', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      setData(response.data.newAdmin);
+    }
+    fetchData();
+  }, [])
   return (
     <div className='profile'>
       <div className="bg-white rounded-lg shadow-md p-6 mt-6">
@@ -12,21 +25,21 @@ const Profile = () => {
               <IdCard className="w-5 h-5 text-blue-600 mr-3" />
               <div>
                 <p className="text-sm text-gray-500">Employee ID</p>
-                <p className="text-base font-medium text-gray-900">EMP123456</p>
+                <p className="text-base font-medium text-gray-900">{data.loginid}</p>
               </div>
             </div>
             <div className="flex items-center">
               <Phone className="w-5 h-5 text-blue-600 mr-3" />
               <div>
                 <p className="text-sm text-gray-500">Phone Number</p>
-                <p className="text-base font-medium text-gray-900">+1 (555) 123-4567</p>
+                <p className="text-base font-medium text-gray-900">{data.phoneNumber}</p>
               </div>
             </div>
             <div className="flex items-center">
               <Mail className="w-5 h-5 text-blue-600 mr-3" />
               <div>
                 <p className="text-sm text-gray-500">Email Address</p>
-                <p className="text-base font-medium text-gray-900">john.doe@company.com</p>
+                <p className="text-base font-medium text-gray-900">{data.email}</p>
               </div>
             </div>
           </div>
