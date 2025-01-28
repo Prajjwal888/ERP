@@ -3,8 +3,6 @@ import admin from "../models/adminModel.js";
 
 const adminMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
-  console.log(req.headers);
-  console.log(req.headers.authorization);
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(403).json({
       msg: "authHeader empty/invalid",
@@ -28,13 +26,28 @@ const adminMiddleware = async (req, res, next) => {
     // Attach the admin's _id to the req object
     req.id = isAdmin.id;
     req.profile = isAdmin.profile;
-
     next(); // Proceed to the next middleware or route handler
   } catch (err) {
     return res.status(403).json({
       msg: "Error in authentication",
     });
   }
+        if (!isAdmin) {
+            return res.status(403).json({
+                msg: "Access denied, not an admin"
+            });
+        }
+
+        // Attach the admin's _id to the req object
+        req.id = isAdmin.id;
+        req.user= isAdmin.profile
+
+        next(); // Proceed to the next middleware or route handler
+    } catch (err) {
+        return res.status(403).json({
+            msg: "Error in authentication"
+        });
+    }
 };
 
 export { adminMiddleware };

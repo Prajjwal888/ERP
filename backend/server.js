@@ -19,7 +19,7 @@ connectDB();
 app.use('/api/admin',adminroute);
 app.use('/api/student',studentRoute);
 app.use('/api/faculty',facultyroute);
-
+app.use("/uploads", express.static("uploads"));
 app.listen(PORT,() => {        
     console.log(`Server is running on port ${PORT}`);
 })

@@ -145,7 +145,7 @@ const getAdmin = async (req, res) => {
   try {
     // Select only the required fields and exclude sensitive ones
     const existingAdmin = await admin.findOne({ loginid }).select(
-      "-_id -password -createdAt -updatedAt"
+      "-password -createdAt -updatedAt"
     );
     
     if (!existingAdmin) {
@@ -254,6 +254,26 @@ const addStudent = async (req, res) => {
     });
   }
 };
+const getProfile = async(req,res)=>{
+    
+    try{
+      const newAdmin = await admin.findOne({_id: req.id});
+      if(!newAdmin){
+        return res.status(400).json({
+          msg : "no admin exist"
+        })
+      }
+      return res.status(200).json({
+        msg : "user fetched Successfully!",
+        newAdmin
+      })
+    }
+    catch(e){
+      return res.status(500).json({
+        msg : "error fetching admin",
+        error : e.message,      })
+    }
+}
 
 const getStudent = async (req, res) => {
   const getSchema = z.object({ loginid: z.number().int() }); 
@@ -272,7 +292,7 @@ const getStudent = async (req, res) => {
   try {
     const existingStudent = await student
       .findOne({ loginid })
-      .select("-_id -password -createdAt -updatedAt"); // Exclude sensitive fields
+      .select("-password -createdAt -updatedAt"); // Exclude sensitive fields
     
     if (!existingStudent) {
       return res.status(404).json({
@@ -312,6 +332,7 @@ const deleteStudent = async(req,res)=>{
   }
 }
 
+
 const addFaculty = async (req, res) => {
   const facultySchema = z.object({
     loginid: z.number().int().min(1),
@@ -339,7 +360,7 @@ const addFaculty = async (req, res) => {
     });
   }
 
-  const { loginid } = req.body; // Extract `loginid` to check for existing faculty
+  const { loginid, password } = req.body; 
 
   try {
     // Check if a faculty member with the same loginid already exists
@@ -350,8 +371,15 @@ const addFaculty = async (req, res) => {
       });
     }
 
-    // Create a new faculty document
-    const newFaculty = await faculty.create(req.body);
+    // Hash the password using bcrypt
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
+
+    // Create a new faculty document with the hashed password
+    const newFaculty = await faculty.create({
+      ...req.body,
+      password: hashedPassword,  // Save the hashed password
+    });
+
     return res.status(201).json({
       msg: "Faculty created successfully!",
       faculty: newFaculty,
@@ -422,7 +450,4 @@ const deleteFaculty = async (req, res) => {
   }
 };
 
-
-
-
-export { loginHandler , addAdmin, getAdmin, getAllAdmins, addStudent ,getStudent ,addFaculty ,getFaculty ,deleteFaculty , deleteStudent};
+export { loginHandler , addAdmin, getAdmin, getAllAdmins, addStudent ,getStudent ,addFaculty ,getFaculty ,deleteFaculty , deleteStudent,getProfile};
