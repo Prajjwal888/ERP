@@ -10,7 +10,7 @@ adminroute.post('/addAdmin',adminMiddleware,addAdmin);
 adminroute.get('/getAdmin',adminMiddleware,getAdmin);
 adminroute.get('/getallAdmin',adminMiddleware,getAllAdmins);
 adminroute.post("/addStudent",adminMiddleware,addStudent);
-adminroute.get("/getStudent",adminMiddleware,getStudent);
+adminroute.post("/getStudent",adminMiddleware,getStudent);
 adminroute.post("/addFaculty",adminMiddleware,addFaculty)
 adminroute.get("/getFaculty",adminMiddleware,getFaculty);
 adminroute.delete("/deleteFaculty",adminMiddleware,deleteFaculty);

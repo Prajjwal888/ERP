@@ -1,8 +1,8 @@
 import express from 'express';
 import {loginHandler} from '../controllers/student.js';
-
 import { studentAuthMiddleware } from '../middleware/studentMiddleware.js';
-import { getTimeTable } from '../controllers/student.js';   
+import { getTimeTable } from '../controllers/student.js';
+import { getNotice } from '../controllers/notice.js';   
 const studentRouter = express.Router();
 
 studentRouter.post('/login', loginHandler);
