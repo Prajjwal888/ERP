@@ -1,118 +1,108 @@
-import student from "../models/studentModel.js";
-import faculty from "../models/facultyModel.js";
-import admin from "../models/adminModel.js";
-import notice from "../models/noticeModel.js";
-
-const addNotice = async (req, res) => {
-    if (req.user === "student") {
-        return res.status(400).json({
-            msg: "Student can't add notice", 
-        });
+import notice from "../models/noticeModel.js"
+const addNotice= async(req,res)=>{
+    if(req.user=="student"){
+        res.status(400).json({
+            msg : "student can't add notices"
+        })
     }
-    try {
-        console.log
+    try{
         const newNotice = await notice.create({
-            ...req.body, 
-            noticeFrom: req.user, 
-        });
+            ...req.body,
+            noticeFrom : req.user,
+            issuedBy: req.id
+        })
         return res.status(200).json({
-            msg: "Notice added successfully!", 
-            newNotice,
-        });
-    } catch (e) {
-        res.status(500).json({
-            msg: "Error adding notice",
-            error: e.message, 
-        });
+           msg : "notice added successfully!",
+           newNotice
+        })
     }
-};
-
+    catch(e){
+        return res.status(500).json({
+            msg : "error adding notices",
+            error : e.message
+        })
+    }
+}
 const deleteNotice = async (req, res) => {
-    
-    if (req.user === "student") {
-        return res.status(400).json({
-            msg: "Student can't delete notice",
-        });
-    }
     try {
-        const { id } = req.body; 
+        
+        const { id } = req.body;
 
-        const deletedNotice = await notice.findByIdAndDelete(id);
-
-        if (!deletedNotice) {
+        console.log (id);
+        const deletedNotice = await notice.deleteOne({ _id: id });
+        
+        // Check if a notice was deleted
+        if (deletedNotice.deletedCount === 0) {
             return res.status(404).json({
-                msg: "Notice not found",
+                msg: "Notice not found or already deleted",
             });
         }
 
         return res.status(200).json({
-            msg: "Notice deleted successfully",
+            msg: "Notice deleted successfully!",
             deletedNotice,
         });
     } catch (e) {
-        res.status(500).json({
+        return res.status(500).json({
             msg: "Error deleting notice",
             error: e.message,
         });
     }
-};export {addNotice,deleteNotice};
-
-import notice from "../models/noticeModel.js";
-
-const getNotice = async (req, res) => {
-try{
-    const userRole =req.profile;
-    let notices;
-    if(userRole=='admin'){
-        notices=await notice.find({});
-    }
-    else if (userRole==='faculty'){
-        notices=await notice.find({noticeTo: { $in: ['faculty', 'student'] },});
-    }
-    else if(userRole==='student'){
-        notices=await notice.find({noticeTo: { $in: ['student'] },});
-}
-else{
-    return res.status(400).json({message:'No Notices To Show'});
-}
-return res.status(200).json(notices);
-}
-
-catch(error){
-    console.error("Error fetching notices:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-}
 };
-const updateNotice = async (req, res) => {
-    try {
-      
-      const { title, description, noticeTo } = req.body.notice;
-      const id = req.body.notice._id;
-  
-      // Check if ID exists
-      if (!id) {
-        return res.status(400).json({ error: "Notice ID is required." });
-      }
-      const updatedNotice = await notice.findByIdAndUpdate(
-        id,
-        { title, description, noticeTo},
-        { new: true } 
-      );
-      if (!updatedNotice) {
-        return res.status(404).json({ error: "Notice not found." });
-      }
-  
-      // Respond with the updated notice
-      res.status(200).json({
-        message: "Notice updated successfully.",
-        notice: updatedNotice,
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        error: "An error occurred while updating the notice.",
-        details: error.message,
-      });
+const getNotice = async(req,res)=>{
+    if(req.user==="admin"){
+        try {
+            const notices = await notice.find({});
+            res.status(201).json({
+               msg : "notice fetched successfully!" ,
+               notices
+            })
+        } catch (err) {
+            // console.error("Error fetching notices:", err);
+            return res.status(500).json({message:""})
+        }
     }
-  };
-export  { getNotice, updateNotice };  
+    else if(req.user==="faculty"){
+        try {
+          
+            const notices = await notice.find({
+                $or: [
+                    { noticeFrom: "faculty" }, 
+                    { noticeTo: "faculty" },  
+                    { noticeTo: "all" }       
+                ]
+            });
+    
+            return res.status(200).json({
+                msg: "Notices retrieved successfully",
+                notices
+            });
+        } catch (e) {
+            // Handle errors
+            return res.status(500).json({
+                msg: "Error fetching notices",
+                error: e.message
+            });
+        }
+    }
+    else if(req.user==="student"){
+        try {
+            const notices = await notice.find({
+                noticeTo: { $in: ["student", "all"] }
+            });
+    
+            return res.status(200).json({
+                msg: "Notices retrieved successfully",
+                notices
+            });
+        } catch (e) {
+           
+            return res.status(500).json({
+                msg: "Error fetching notices",
+                error: e.message
+            });
+        }
+    }
+}
+
+export {addNotice,deleteNotice,getNotice};
