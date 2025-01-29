@@ -1,6 +1,6 @@
 
 import express from 'express';
-import {addAdmin, addFaculty, addStudent, deleteFaculty, deleteStudent, getAdmin, getAllAdmins, getFaculty, getProfile, getStudent, loginHandler} from '../controllers/admin.js';
+import {addAdmin, addBranch, addFaculty, addStudent, addSubject, deleteBranch, deleteFaculty, deleteStudent, deleteSubject, getAdmin, getAllAdmins, getFaculty, getProfile, getStudent, loginHandler, viewBranch, viewSubject} from '../controllers/admin.js';
 import { adminMiddleware } from '../middleware/adminMiddleware.js';
 import { addNotice, deleteNotice, getNotice } from '../controllers/notice.js';
 const adminroute = express.Router();
@@ -19,6 +19,12 @@ adminroute.post("/addNotice",adminMiddleware,addNotice);
 adminroute.delete("/deleteNotice",adminMiddleware,deleteNotice);
 adminroute.get("/getNotice",adminMiddleware,getNotice);
 adminroute.get("/getProfile",adminMiddleware,getProfile)
+adminroute.post("/addBranch",adminMiddleware,addBranch);
+adminroute.get("/getBranch",adminMiddleware,viewBranch);
+adminroute.delete("/deleteBranch",adminMiddleware,deleteBranch);
+adminroute.post("/addSubject",adminMiddleware,addSubject);
+adminroute.post("/getSubject",adminMiddleware,viewSubject);
+adminroute.post("/deleteSubject",adminMiddleware,deleteSubject);
 
 
 export default adminroute;
