@@ -1,6 +1,6 @@
 import notice from "../models/noticeModel.js"
 const addNotice= async(req,res)=>{
-    if(req.user=="student"){
+    if(req.user==="student"){
         res.status(400).json({
             msg : "student can't add notices"
         })
@@ -26,8 +26,7 @@ const addNotice= async(req,res)=>{
 const deleteNotice = async (req, res) => {
     try {
         
-        const { id } = req.body;
-
+        const { id } = req.params;
         console.log (id);
         const deletedNotice = await notice.deleteOne({ _id: id });
         

@@ -4,8 +4,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 const StudentDetails = () => {
   const [isAddStudent, setIsAddStudent] = useState(true);
-  // const [students, setStudents] = useState([]);
-  const [searchEnrollmentNo, setSearchEnrollmentNo] = useState(0);
+  const [searchEnrollmentNo, setSearchEnrollmentNo] = useState("");
   const [searchResult, setSearchResult] = useState(null);
 
   const toggleMode = () => {
@@ -41,12 +40,11 @@ const StudentDetails = () => {
           },
         }
       );
-      // setStudents([...students, newStudent]);
       event.target.reset();
       toast.success("Successfully Added Student");
     } catch (error) {
-      console.log(error.response?.data?.message || error.message);
-      toast.error(error.response?.data?.message || "An error occurred!");
+      console.log(error.response?.data?.msg || error.message);
+      toast.error(error.response?.data?.msg || "An error occurred!");
     }
   };
   const handleSearch = async () => {
@@ -62,12 +60,11 @@ const StudentDetails = () => {
           },
         }
       );
-      // setStudents([...students, newStudent]);
       setSearchResult(response.data.student || null);
       toast.success("Student found!");
     } catch (error) {
-      console.log(error.response?.data?.message || error.message);
-      toast.error(error.response?.data?.message || "An error occurred!");
+      console.log(error.response?.data?.msg || error.message);
+      toast.error(error.response?.data?.msg || "An error occurred!");
     }
   };
   return (
@@ -274,7 +271,7 @@ const StudentDetails = () => {
                   <label className="block text-sm font-medium text-gray-700">
                     Login ID
                   </label>
-                  <p className="mt-1 text-gray-900">{searchResult.loginId}</p>
+                  <p className="mt-1 text-gray-900">{searchResult.loginid}</p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
