@@ -1,11 +1,11 @@
 import React from "react";
 import { IdCard, Phone, Mail } from "lucide-react";
 
-const Profile = () => {
+const StudentProfile = () => {
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold border-l-4 border-red-500 pl-3 text-gray-800 mb-6">
-        Employee Profile
+        Student Profile
       </h1>
       <div className="bg-white rounded-lg shadow-lg p-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -14,8 +14,8 @@ const Profile = () => {
               <div className="flex items-center">
                 <IdCard className="w-6 h-6 text-blue-500 mr-4" />
                 <div>
-                  <p className="text-sm text-gray-500">Employee ID</p>
-                  <p className="text-lg font-medium text-gray-900">EMP123456</p>
+                  <p className="text-sm text-gray-500">Student ID</p>
+                  <p className="text-lg font-medium text-gray-900">2211201365</p>
                 </div>
               </div>
               <div className="flex items-center">
@@ -29,7 +29,7 @@ const Profile = () => {
                 <Mail className="w-6 h-6 text-blue-500 mr-4" />
                 <div>
                   <p className="text-sm text-gray-500">Email Address</p>
-                  <p className="text-lg font-medium text-gray-900">john.doe@company.com</p>
+                  <p className="text-lg font-medium text-gray-900">ily@gmail.com</p>
                 </div>
               </div>
             </div>
@@ -47,4 +47,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default StudentProfile;

@@ -3,6 +3,11 @@ import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import Profile from "../components/admin/Profile";
 import Notice from "../components/admin/Notice";
+import StudentDetails from "../components/admin/StudentDetails";
+import FacultyDetails from "../components/admin/FacultyDetails";
+import SubjectDetails from "../components/admin/SubjectDetails";
+import AdminDetails from "../components/admin/AdminDetails";
+import BranchDetails from "../components/admin/BranchDetails";
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("Profile");
   const renderSection = () => {
@@ -12,15 +17,15 @@ const AdminDashboard = () => {
       case "Notice":
         return <Notice />;
       case "Student":
-        return <Notice />;
+        return <StudentDetails />;
       case "Faculty":
-        return <Notice />;
+        return <FacultyDetails />;
       case "Subjects":
-        return <Notice />;
+        return <SubjectDetails />;
       case "Admins":
-        return <Notice />;
+        return <AdminDetails />;
       case "Branch":
-        return <Notice />;
+        return <BranchDetails />;
       default:
         return <div>Select a section to view.</div>;
     }
