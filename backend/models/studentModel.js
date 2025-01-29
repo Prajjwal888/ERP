@@ -49,7 +49,19 @@ const studentSchema = new mongoose.Schema({
       profile: {
         type: String,
         required: true,
-      }
+      },
+      subjects:[
+        {
+          subject : {
+            type: mongoose.Schema.Types.ObjectId,
+            ref : "subject"
+          },
+          marks :{
+            type: Number
+          }
+        }
+      ]
+
     }, { timestamps: true });
 
 const student = mongoose.model('Student', studentSchema);
