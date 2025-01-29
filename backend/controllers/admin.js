@@ -315,7 +315,8 @@ const getStudent = async (req, res) => {
 
 const deleteStudent = async(req,res)=>{
   try{
-    const deletedStudent = await student.findOneAndDelete({ loginid : req.body.loginid });
+    const {id}=req.params;
+    const deletedStudent = await student.findOneAndDelete({ loginid : id});
     if(!deletedStudent){
       return res.status(400).json({
         msg : "student doesn't exist"
@@ -409,7 +410,7 @@ const getFaculty = async(req,res)=>{
   
     const existingFaculty = await faculty.findOne({loginid:validationResult.data.loginid});
     if(!existingFaculty){
-      res.status(400).json({
+      return res.status(400).json({
         msg : "Faculty doesn't exist"
       })
     }
@@ -428,7 +429,7 @@ const getFaculty = async(req,res)=>{
 
 const deleteFaculty = async (req, res) => {
   try {
-    const { loginid } = req.body;
+    const { loginid } = req.params;
 
 
     // Try to find and delete the faculty using the loginid
