@@ -1,3 +1,4 @@
+
 import express from 'express';
 import {addAdmin, addBranch, addFaculty, addStudent, addSubject, deleteBranch, deleteFaculty, deleteStudent, deleteSubject, getAdmin, getAllAdmins, getFaculty, getProfile, getStudent, loginHandler, viewBranch, viewSubject} from '../controllers/admin.js';
 import { adminMiddleware } from '../middleware/adminMiddleware.js';
@@ -27,4 +28,3 @@ adminroute.post("/deleteSubject",adminMiddleware,deleteSubject);
 
 
 export default adminroute;
-

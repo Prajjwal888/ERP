@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Search } from "lucide-react";
 
 const AdminDetails = () => {
   const [isAddAdmin, setIsAddAdmin] = useState(true);
@@ -8,20 +9,20 @@ const AdminDetails = () => {
   };
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold border-l-4 border-red-500 pl-2">
+    <div className="p-8 bg-gray-100 min-h-screen">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold border-l-4 border-red-500 pl-3 text-gray-800">
           Admin Details
         </h1>
-        <div className="flex gap-4 text-black">
+        <div className="flex gap-6 text-gray-600">
           <button
-            className={`font-medium ${isAddAdmin ? "border-b-2 border-blue-500" : "hover:underline"}`}
+            className={`font-medium transition-all ${isAddAdmin ? "border-b-2 border-blue-500 text-blue-500" : "hover:text-blue-500"}`}
             onClick={toggleMode}
           >
             Add Admin
           </button>
           <button
-            className={`font-medium ${!isAddAdmin ? "border-b-2 border-blue-500" : "hover:underline"}`}
+            className={`font-medium transition-all ${!isAddAdmin ? "border-b-2 border-blue-500 text-blue-500" : "hover:text-blue-500"}`}
             onClick={toggleMode}
           >
             View Admin
@@ -29,43 +30,77 @@ const AdminDetails = () => {
         </div>
       </div>
       {isAddAdmin ? (
-        <form className="space-y-4 bg-white p-6 rounded-lg shadow-md shadow-blue-100">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+        <form className="space-y-6 bg-white p-8 rounded-lg shadow-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700">Login ID</label>
-              <input type="number" className="mt-1 border border-gray-300 rounded-md px-4 py-2 w-full" required />
+              <input
+                type="number"
+                className="mt-2 border border-gray-300 rounded-md px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
+                required
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Password</label>
-              <input type="password" className="mt-1 border border-gray-300 rounded-md px-4 py-2 w-full" required />
+              <input
+                type="password"
+                className="mt-2 border border-gray-300 rounded-md px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
+                required
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Employee ID</label>
-              <input type="number" className="mt-1 border border-gray-300 rounded-md px-4 py-2 w-full" required />
+              <input
+                type="number"
+                className="mt-2 border border-gray-300 rounded-md px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
+                required
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">First Name</label>
-              <input type="text" className="mt-1 border border-gray-300 rounded-md px-4 py-2 w-full" required />
+              <input
+                type="text"
+                className="mt-2 border border-gray-300 rounded-md px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
+                required
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Middle Name</label>
-              <input type="text" className="mt-1 border border-gray-300 rounded-md px-4 py-2 w-full" />
+              <input
+                type="text"
+                className="mt-2 border border-gray-300 rounded-md px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Last Name</label>
-              <input type="text" className="mt-1 border border-gray-300 rounded-md px-4 py-2 w-full" required />
+              <input
+                type="text"
+                className="mt-2 border border-gray-300 rounded-md px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
+                required
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" className="mt-1 border border-gray-300 rounded-md px-4 py-2 w-full" required />
+              <input
+                type="email"
+                className="mt-2 border border-gray-300 rounded-md px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
+                required
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Phone Number</label>
-              <input type="number" className="mt-1 border border-gray-300 rounded-md px-4 py-2 w-full" required />
+              <input
+                type="number"
+                className="mt-2 border border-gray-300 rounded-md px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
+                required
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Gender</label>
-              <select className="mt-1 border border-gray-300 rounded-md px-4 py-2 w-full" required>
+              <select
+                className="mt-2 border border-gray-300 rounded-md px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
+                required
+              >
                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -74,13 +109,17 @@ const AdminDetails = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Profile</label>
-              <input type="text" className="mt-1 border border-gray-300 rounded-md px-4 py-2 w-full" required />
+              <input
+                type="text"
+                className="mt-2 border border-gray-300 rounded-md px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
+                required
+              />
             </div>
           </div>
           <div className="flex justify-center">
             <button
               type="submit"
-              className="mt-4 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-32"
+              className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-400"
             >
               Add Admin
             </button>
@@ -94,7 +133,8 @@ const AdminDetails = () => {
             className="border border-gray-300 rounded-md px-4 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <button className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-            View Admin
+            <span className="sr-only">Search</span>
+            <Search className="w-5 h-5" />
           </button>
         </div>
       )}
