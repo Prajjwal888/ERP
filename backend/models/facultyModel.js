@@ -50,7 +50,7 @@ const facultySchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-         profile: {
+      profile: {
         type: String,
         required: true,
       }}, 
