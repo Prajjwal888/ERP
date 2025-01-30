@@ -4,6 +4,9 @@ import jwt from "jsonwebtoken";
 import faculty from "../models/facultyModel.js";
 import student from "../models/studentModel.js";
 import timeTable from "../models/timeTableModel.js";
+import material from "../models/MaterialModel.js";
+import subject from "../models/subjectModel.js";
+
 const loginSchema = z.object({
   loginid: z.number().min(1, "Login ID is required"),
   password: z.string().min(1, "Password is required"),
@@ -127,5 +130,43 @@ image,
   }
 }
 
+const putMaterial = async (req, res) => {
+  try {
+    const { title, subject: subjectName } = req.body;  
+    const image = req.file ? req.file.path : null;
+    if (!image) {
+        return res.status(400).json({ message: "Image is required" });
+    }
 
-export { loginHandler,getFaculty,getStudent,puttimeTable};
+    const facultyId = req.id;     
+    const subjectDoc = await subject.findOne({
+        name: subjectName, 
+    });
+    if (!subjectDoc) {
+        return res.status(404).json({ message: "Subject not found." });
+    }
+    if (subjectDoc.faculty.toString() !== facultyId) {
+        return res.status(403).json({ message: "You are not authorized to upload material for this subject." });
+    }
+    const newMaterial = new material({
+        title,                     
+        subject: subjectDoc._id,     
+        image                      
+    });
+
+    await newMaterial.save();
+
+    res.status(201).json({ message: "Material uploaded successfully!", material: newMaterial });
+
+} catch (error) {
+      console.error("Error uploading material:", error);
+      res.status(500).json({ message: "Server error. Please try again later." });
+  }
+};
+
+const addMarks = async (req,res)=>{
+
+}
+
+
+export { loginHandler,getFaculty,getStudent,puttimeTable,putMaterial };

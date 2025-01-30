@@ -5,7 +5,7 @@ import admin from "../models/adminModel.js";
 import student from "../models/studentModel.js";
 import faculty from "../models/facultyModel.js";
 import { branch } from "../models/branchModel.js";
-import { subject } from "../models/subjectModel.js";
+import  subject  from "../models/subjectModel.js";
 
 const loginSchema = z.object({
   loginid: z.number().min(1, "Login ID is required"),
