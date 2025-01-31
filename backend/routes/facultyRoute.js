@@ -1,11 +1,11 @@
 import express from 'express';
-import {loginHandler,getFaculty,getStudent} from '../controllers/faculty.js';
+import {loginHandler,getFaculty,getStudent, renderStudent, addMarks} from '../controllers/faculty.js';
 import facultyAuthMiddleware from '../middleware/facultyMiddleware.js';
 import upload from '../middleware/multerMiddleware.js';
 import { puttimeTable } from '../controllers/faculty.js';
 import { getNotice } from '../controllers/notice.js';
 import { putMaterial } from '../controllers/faculty.js';
-import faculty from '../models/facultyModel.js';        
+       
 
 const facultyRouter = express.Router();
 
@@ -15,5 +15,8 @@ facultyRouter.get('/getStudent',facultyAuthMiddleware,getStudent);
 facultyRouter.get('/getNotice',facultyAuthMiddleware,getNotice);
 facultyRouter.post('/uploadTimetable',facultyAuthMiddleware,upload.single('image'),puttimeTable);
 facultyRouter.post('/uploadMaterial',facultyAuthMiddleware,upload.single('image'),putMaterial);
+facultyRouter.post("/renderStudent",facultyAuthMiddleware,renderStudent);
+facultyRouter.post("/addmarks",facultyAuthMiddleware,addMarks);
+
 export default facultyRouter;
 
