@@ -43,7 +43,7 @@ const StudentDetails = () => {
       event.target.reset();
       toast.success("Successfully Added Student");
     } catch (error) {
-      console.log(error.response?.data?.msg || error.message);
+      console.log(error.response?.data?.msg || error);
       toast.error(error.response?.data?.msg || "An error occurred!");
     }
   };
@@ -55,7 +55,6 @@ const StudentDetails = () => {
         { loginid: Number(searchEnrollmentNo) },
         {
           headers: {
-            test: "test",
             authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
@@ -63,7 +62,7 @@ const StudentDetails = () => {
       setSearchResult(response.data.student || null);
       toast.success("Student found!");
     } catch (error) {
-      console.log(error.response?.data?.msg || error.message);
+      console.log(error.response?.data?.msg || error);
       toast.error(error.response?.data?.msg || "An error occurred!");
     }
   };

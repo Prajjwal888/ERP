@@ -45,7 +45,7 @@ const FacultyDetails = () => {
       event.target.reset();
       toast.success("Successfully Added Faculty");
     } catch (error) {
-      console.log(error.response?.data?.msg || error.message);
+      console.log(error.response?.data?.msg || error);
       toast.error(error.response?.data?.msg || "An error occurred!");
     }
   };
@@ -64,7 +64,7 @@ const FacultyDetails = () => {
       setSearchResult(response.data.existingFaculty || null);
       toast.success("Faculty found!");
     } catch (error) {
-      console.log(error.response?.data?.msg || error.message);
+      console.log(error.response?.data?.msg || error);
       toast.error(error.response?.data?.msg || "An error occurred!");
     }
   };

@@ -37,7 +37,7 @@ const Notice = () => {
       setIsAddingNotice(false);
       toast.success(response.data.msg);
     } catch (error) {
-      console.log(error.response?.data?.msg || error.message);
+      console.log(error.response?.data?.msg || error);
       toast.error(error.response?.data?.msg || "An error occurred!");
     }
   };
@@ -52,11 +52,11 @@ const Notice = () => {
           },
         }
       );
-      
+
       setNotices(notices.filter((notice) => notice._id !== noticeId));
       toast.success(response.data.msg);
     } catch (error) {
-      console.log(error.response?.data?.msg || error.message);
+      console.log(error.response?.data?.msg || error);
       toast.error(error.response?.data?.msg || "Failed to delete notice.");
     }
   };
@@ -71,7 +71,7 @@ const Notice = () => {
         }
       );
       setNotices(response.data.notices);
-    }
+    };
     fetchData();
   }, [notices]);
   return (

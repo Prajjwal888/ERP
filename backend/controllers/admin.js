@@ -504,7 +504,7 @@ const viewBranch = async(req,res)=>{
 }
 const deleteBranch = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
 
     // Check if the branch exists
     const branchExists = await branch.findById(id);
@@ -530,6 +530,7 @@ const deleteBranch = async (req, res) => {
 
 const addSubject = async (req, res) => {
   try {
+    console.log(req.body);
     const { branch: branchName, semester, loginid, ...restData } = req.body;
 
     // Find branch by name
@@ -607,7 +608,7 @@ const viewSubject = async (req, res) => {
 
 
 const deleteSubject = async (req, res) => {
-  const { id } = req.body; // Get the subject ID from the request body
+  const { id } = req.params;
 
   try {
     // Step 1: Find the subject by its ID
@@ -656,3 +657,5 @@ const deleteSubject = async (req, res) => {
 
 
 export { loginHandler , addAdmin, getAdmin, getAllAdmins, addStudent ,getStudent ,addFaculty ,getFaculty ,deleteFaculty , deleteStudent,getProfile,addBranch,viewBranch,deleteBranch,addSubject,viewSubject,deleteSubject};
+
+// this code is composed by manas bhutada roll no 68 cse
