@@ -4,6 +4,9 @@ import jwt from "jsonwebtoken";
 import faculty from "../models/facultyModel.js";
 import student from "../models/studentModel.js";
 import timeTable from "../models/timeTableModel.js";
+import material from "../models/MaterialModel.js";
+import subject from "../models/subjectModel.js";
+
 const loginSchema = z.object({
   loginid: z.number().min(1, "Login ID is required"),
   password: z.string().min(1, "Password is required"),
@@ -127,5 +130,103 @@ image,
   }
 }
 
+const putMaterial = async (req, res) => {
+  try {
+    const { title, subject: subjectName } = req.body;  
+    const image = req.file ? req.file.path : null;
+    if (!image) {
+        return res.status(400).json({ message: "Image is required" });
+    }
 
-export { loginHandler,getFaculty,getStudent,puttimeTable};
+    const facultyId = req.id;     
+    const subjectDoc = await subject.findOne({
+        name: subjectName, 
+    });
+    if (!subjectDoc) {
+        return res.status(404).json({ message: "Subject not found." });
+    }
+    if (subjectDoc.faculty.toString() !== facultyId) {
+        return res.status(403).json({ message: "You are not authorized to upload material for this subject." });
+    }
+    const newMaterial = new material({
+        title,                     
+        subject: subjectDoc._id,     
+        image                      
+    });
+
+    await newMaterial.save();
+
+    res.status(201).json({ message: "Material uploaded successfully!", material: newMaterial });
+
+} catch (error) {
+      console.error("Error uploading material:", error);
+      res.status(500).json({ message: "Server error. Please try again later." });
+  }
+};
+
+const renderStudent = async (req, res) => {
+  const { branch, semester, subjectName } = req.body;
+
+  try {
+    // Find the subject based on subjectName
+    const subject = await subject.findOne({ name: subjectName });
+
+    if (!subject) {
+      return res.status(404).json({ message: "Subject not found" });
+    }
+
+    // Find students matching branch, semester, and having the subject in their subjects array
+    const students = await student.find({
+      branch,
+      semester,
+      "subjects.subject": subject._id, // Check if subject exists in the subjects array
+    }).select("-password"); 
+
+    if (students.length === 0) {
+      return res.status(404).json({ message: "No students found" });
+    }
+
+    return res.status(200).json(students);
+  } 
+  catch (e) {
+    console.error("Error fetching students:", e);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const addMarks = async (req, res) => {
+  // Extracting studentId, subjectId, and marks from the request body
+  const { studentId, subjectId, marks } = req.body;
+
+  try {
+    // Fetch the student record from the database using the provided studentId
+    const student = await student.findById(studentId);
+
+    // Find the index of the subject in the student's subjects array
+    const subjectIndex = student.subjects.findIndex(
+      (sub) => sub.subject.toString() === subjectId
+    );
+
+    if (subjectIndex !== -1) {
+      // If the subject already exists, update the marks
+      student.subjects[subjectIndex].marks = marks;
+    } else {
+      // If the subject does not exist, add a new subject with the given marks
+      student.subjects.push({ subject: subjectId, marks });
+    }
+
+    // Save the updated student record to the database
+    await student.save();
+
+    // Send a success response with the updated student data
+    return res.status(200).json({ message: "Marks updated successfully", student });
+
+  } catch (error) {
+    // Log any errors and send a 500 Internal Server Error response
+    console.error("Error updating marks:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+export { loginHandler,getFaculty,getStudent,puttimeTable,putMaterial ,renderStudent,addMarks };
