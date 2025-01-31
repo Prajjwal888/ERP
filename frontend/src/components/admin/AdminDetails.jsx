@@ -42,7 +42,7 @@ const FacultyDetails = () => {
       event.target.reset();
       toast.success("Successfully Added Admin");
     } catch (error) {
-      console.log(error.response?.data?.msg || error.message);
+      console.log(error.response?.data?.msg || error);
       toast.error(error.response?.data?.msg || "An error occurred!");
     }
   };
@@ -61,7 +61,7 @@ const FacultyDetails = () => {
       setSearchResult(response.data.existingAdmin || null);
       toast.success("Admin found!");
     } catch (error) {
-      console.log(error.response?.data?.msg || error.message);
+      console.log(error.response?.data?.msg || error);
       toast.error(error.response?.data?.msg || "An error occurred!");
     }
   };

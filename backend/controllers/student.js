@@ -28,7 +28,10 @@ const loginHandler = async (req, res) => {
       });
     }
 
-    const isPasswordValid = await bcrypt.compare(password,existingStudent.password);
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      existingStudent.password
+    );
     if (!isPasswordValid) {
       return res.status(400).json({
         message: "Password does not match",
@@ -36,43 +39,43 @@ const loginHandler = async (req, res) => {
     }
 
     const token = jwt.sign(
-        { id: existingStudent._id, 
-          profile: existingStudent.profile,  // Add the profile data here
-        },
-        process.env.JWT_SECRET,
-        { expiresIn: "1h" } // Token expires in 1 hour
-      );
+      {
+        id: existingStudent._id,
+        profile: existingStudent.profile, // Add the profile data here
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" } // Token expires in 1 hour
+    );
 
     return res.status(200).json({
       message: "Login successful",
       token,
     });
-  } 
-  
-  catch (error) {
+  } catch (error) {
     return res.status(500).json({
       message: "An error occurred during login",
     });
   }
 };
 
-  
 const getTimeTable = async (req, res) => {
   try {
-    const id = req.id; 
+    const id = req.id;
     const profile = req.profile;
-    const studata = await student.findOne({ _id: id }).select("semester branch");
-         if(!studata){
-          return res.status(400).json({message:"Student not found"});
+    const studata = await student
+      .findOne({ _id: id })
+      .select("semester branch");
+    if (!studata) {
+      return res.status(400).json({ message: "Student not found" });
+    }
+    const { branch, semester } = studata;
 
-         }
-          const {branch,semester}= studata;
-
-          const timetable =await timeTable.findOne({branch,semester}).select("image");
-          if(!timetable){
-            return res.status(400).json("No timetable to show");
-
-          }
+    const timetable = await timeTable
+      .findOne({ branch, semester })
+      .select("image");
+    if (!timetable) {
+      return res.status(400).json("No timetable to show");
+    }
     res.status(200).json(timetable);
   } catch (error) {
     console.error("Error fetching timetable:", error);
@@ -80,27 +83,26 @@ const getTimeTable = async (req, res) => {
   }
 };
 
-const getStudent = async(req,res)=>{
+const getStudent = async (req, res) => {
   const id = req.id;
-  try{
-    const newStudent = await student.findOne({_id : id});
-    if(!newStudent){
+  try {
+    const newStudent = await student.findOne({ _id: id });
+    if (!newStudent) {
       return res.status(400).json({
-        msg : "student doesn't exist"
-      })
+        msg: "student doesn't exist",
+      });
     }
     return res.status(200).json({
-      msg : "student retrieved successfully!",
-      newStudent
-    })
+      msg: "student retrieved successfully!",
+      newStudent,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      msg: "erro fetching students",
+      error: e.message,
+    });
   }
-  catch(e){
-     return res.status(500).json({
-      msg : "erro fetching students",
-      error: e.message
-     })
-  }
-}
+};
 
 const getMarks = async (req, res) => {
   try {
@@ -108,19 +110,18 @@ const getMarks = async (req, res) => {
     const studentId = req.id;
 
     // Get semester from query params
-    const { semester } = req.query; 
+    const { semester } = req.query;
 
     if (!semester) {
       return res.status(400).json({ msg: "Semester is required" });
     }
 
     // Find the student and populate subject details
-    const student = await Student.findById(studentId)
-      .populate({
-        path: "subjects.subject",
-        match: { semester: Number(semester) }, // Filter subjects by semester
-        select: "name semester" // Select only name and semester fields
-      });
+    const student = await Student.findById(studentId).populate({
+      path: "subjects.subject",
+      match: { semester: Number(semester) }, // Filter subjects by semester
+      select: "name semester", // Select only name and semester fields
+    });
 
     // If student not found, return error
     if (!student) {
@@ -147,6 +148,4 @@ const getMarks = async (req, res) => {
   }
 };
 
-
-
-export { loginHandler, getTimeTable,getStudent,getMarks };
+export { loginHandler, getTimeTable, getStudent, getMarks };

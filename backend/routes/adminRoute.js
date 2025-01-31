@@ -21,10 +21,10 @@ adminroute.get("/getNotice",adminMiddleware,getNotice);
 adminroute.get("/getProfile",adminMiddleware,getProfile)
 adminroute.post("/addBranch",adminMiddleware,addBranch);
 adminroute.get("/getBranch",adminMiddleware,viewBranch);
-adminroute.delete("/deleteBranch",adminMiddleware,deleteBranch);
+adminroute.delete("/deleteBranch/:id",adminMiddleware,deleteBranch);
 adminroute.post("/addSubject",adminMiddleware,addSubject);
 adminroute.post("/getSubject",adminMiddleware,viewSubject);
-adminroute.post("/deleteSubject",adminMiddleware,deleteSubject);
+adminroute.delete("/deleteSubject/:id",adminMiddleware,deleteSubject);
 
 
 export default adminroute;
