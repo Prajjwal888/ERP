@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import admin from "../models/adminModel.js";
 import student from "../models/studentModel.js";
 import faculty from "../models/facultyModel.js";
+import { branch } from "../models/branchModel.js";
+import  subject  from "../models/subjectModel.js";
 
 const loginSchema = z.object({
   loginid: z.number().min(1, "Login ID is required"),
@@ -313,7 +315,8 @@ const getStudent = async (req, res) => {
 
 const deleteStudent = async(req,res)=>{
   try{
-    const deletedStudent = await student.findOneAndDelete({ loginid : req.body.loginid });
+    const {id}=req.params;
+    const deletedStudent = await student.findOneAndDelete({ loginid : id});
     if(!deletedStudent){
       return res.status(400).json({
         msg : "student doesn't exist"
@@ -407,7 +410,7 @@ const getFaculty = async(req,res)=>{
   
     const existingFaculty = await faculty.findOne({loginid:validationResult.data.loginid});
     if(!existingFaculty){
-      res.status(400).json({
+      return res.status(400).json({
         msg : "Faculty doesn't exist"
       })
     }
@@ -426,7 +429,7 @@ const getFaculty = async(req,res)=>{
 
 const deleteFaculty = async (req, res) => {
   try {
-    const { loginid } = req.body;
+    const { loginid } = req.params;
 
 
     // Try to find and delete the faculty using the loginid
@@ -450,4 +453,209 @@ const deleteFaculty = async (req, res) => {
   }
 };
 
-export { loginHandler , addAdmin, getAdmin, getAllAdmins, addStudent ,getStudent ,addFaculty ,getFaculty ,deleteFaculty , deleteStudent,getProfile};
+const addBranch = async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    
+    const existingBranch = await branch.findOne({ name });
+    if (existingBranch) {
+      return res.status(400).json({
+        msg: "Branch already exists",
+      });
+    }
+
+    // Create 8 semesters with empty subjects
+    const semesters = Array.from({ length: 8 }, (_, i) => ({
+      semesterNumber: i + 1, 
+      subjects: [],
+    }));
+
+    // Create new branch entry
+    const newBranch = await branch.create({
+      name,
+      semesters,
+    });
+
+    return res.status(201).json({
+      msg: "Branch added successfully!",
+      branch: newBranch,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      msg: "Error adding branch",
+      error: e.message,
+    });
+  }
+};
+const viewBranch = async(req,res)=>{
+  try{
+    const allBranch = await branch.find({});
+    return res.status(200).json({
+      allBranch,
+    })
+  }
+  catch(e){
+    return res.status(500).json({
+      msg : "error fetching branch",
+      error : e.message
+    })
+  }
+}
+const deleteBranch = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Check if the branch exists
+    const branchExists = await branch.findById(id);
+    if (!branchExists) {
+      return res.status(404).json({
+        msg: "Branch not found",
+      });
+    }
+
+    const deletedBranch = await branch.findByIdAndDelete(id);
+
+    return res.status(200).json({
+      msg: "Branch deleted successfully!",
+      deletedBranch
+    });
+  } catch (e) {
+    return res.status(500).json({
+      msg: "Error deleting branch",
+      error: e.message,
+    });
+  }
+};
+
+const addSubject = async (req, res) => {
+  try {
+    console.log(req.body);
+    const { branch: branchName, semester, loginid, ...restData } = req.body;
+
+    // Find branch by name
+    const findBranch = await branch.findOne({ name: branchName });
+    if (!findBranch) {
+      return res.status(400).json({
+        msg: "No branch exists",
+      });
+    }
+
+    // Find faculty by loginid
+    const findFaculty = await faculty.findOne({ loginid });
+    if (!findFaculty) {
+      return res.status(400).json({
+        msg: "No faculty exists",
+      });
+    }
+
+    // Add subject to the Subject model
+    const addedSubject = await subject.create({
+      branch: findBranch._id,
+      faculty: findFaculty._id,
+      semester,
+      ...restData,
+    });
+
+    // Add the subject to the correct semester in the branch
+    const updatedBranch = await branch.findOneAndUpdate(
+      { name: branchName, "semesters.semesterNumber": semester },
+      { $push: { "semesters.$.subjects": addedSubject._id } },
+      { new: true }
+    );
+
+    return res.status(201).json({
+      msg: "Subject added successfully!",
+      subject: addedSubject,
+      updatedBranch,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      msg: "Error adding subject",
+      error: e.message,
+    });
+  }
+};
+
+const viewSubject = async (req, res) => {
+  const { branch: branchName, semester } = req.body;
+
+  try {
+    // Find the branch with the given name and semester, and populate subjects
+    const foundBranch = await branch.findOne(
+      { name: branchName, "semesters.semesterNumber": semester },
+      { "semesters.$": 1 } // This ensures we only get the required semester
+    ).populate("semesters.subjects"); // Populate subjects with full details
+
+    if (!foundBranch) {
+      return res.status(400).json({
+        msg: "No subjects found for the given branch and semester",
+      });
+    }
+
+    return res.status(200).json({
+      msg: "Subjects retrieved successfully!",
+      subjects: foundBranch.semesters[0].subjects,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      msg: "Error retrieving subjects",
+      error: e.message,
+    });
+  }
+};
+
+
+
+const deleteSubject = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Step 1: Find the subject by its ID
+    const deletedSubject = await subject.findById(id);
+    if (!deletedSubject) {
+      return res.status(404).json({
+        msg: "Subject not found",
+      });
+    }
+
+    // Step 2: Delete the subject from the subject schema
+    await subject.findByIdAndDelete(id);
+
+    // Step 3: Extract the branchId and semester from the deleted subject
+    const { branch: branchId, semester } = deletedSubject;
+
+    // Step 4: Update the branch and remove the subject reference from the correct semester
+    const updatedBranch = await branch.updateMany(
+      { _id: branchId, "semesters.semesterNumber": semester },
+      {
+        $pull: {
+          "semesters.$.subjects": id, // Remove the subject ID from the subjects array
+        },
+      }
+    );
+
+    // Check if any branch was updated
+    if (updatedBranch.nModified === 0) {
+      return res.status(400).json({
+        msg: "No matching branch or semester found, subject not removed",
+      });
+    }
+
+    // Step 5: Return success response
+    return res.status(200).json({
+      msg: "Subject deleted successfully and removed from the branch",
+      deletedSubject,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      msg: "Error deleting subject",
+      error: e.message,
+    });
+  }
+};
+
+
+export { loginHandler , addAdmin, getAdmin, getAllAdmins, addStudent ,getStudent ,addFaculty ,getFaculty ,deleteFaculty , deleteStudent,getProfile,addBranch,viewBranch,deleteBranch,addSubject,viewSubject,deleteSubject};
+
+// this code is composed by manas bhutada roll no 68 cse

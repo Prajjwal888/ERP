@@ -28,7 +28,7 @@ const Login = ({ activeSection }) => {
         navigate("/student");
       }
     } catch (error) {
-      console.log(error.response?.data?.message || error.message);
+      console.log(error.response?.data?.message || error);
       toast.error(error.response?.data?.message || "An error occurred!");
     }
     console.log("Login attempted with:", loginId, password, activeSection);
