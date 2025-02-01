@@ -4,7 +4,7 @@ import student from "../models/studentModel.js"; // Assuming you have a student 
 const studentAuthMiddleware = async (req, res, next) => {
   // Check if the token is present in the Authorization header
   const token = req.header("Authorization")?.replace("Bearer ", "");
-
+  // console.log(token);
   if (!token) {
     return res.status(401).json({ message: "Access denied. No token provided." });
   }

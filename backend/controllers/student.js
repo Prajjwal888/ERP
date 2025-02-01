@@ -3,7 +3,8 @@ import { z } from "zod";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import timeTable from "../models/timeTableModel.js";
-
+import subject from "../models/subjectModel.js";
+import material from "../models/MaterialModel.js";
 const loginHandler = async (req, res) => {
   const signinSchema = z.object({
     loginid: z.number().int(),
@@ -61,7 +62,6 @@ const loginHandler = async (req, res) => {
 const getTimeTable = async (req, res) => {
   try {
     const id = req.id;
-    const profile = req.profile;
     const studata = await student
       .findOne({ _id: id })
       .select("semester branch");
@@ -76,7 +76,7 @@ const getTimeTable = async (req, res) => {
     if (!timetable) {
       return res.status(400).json("No timetable to show");
     }
-    res.status(200).json(timetable);
+    res.status(200).json({ timetable, semester });
   } catch (error) {
     console.error("Error fetching timetable:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -108,28 +108,27 @@ const getMarks = async (req, res) => {
   try {
     // Extract student ID from the request (set in middleware)
     const studentId = req.id;
-
-    // Get semester from query params
-    const { semester } = req.query;
+    const student1 = await student.findOne({ _id: studentId });
+    const semester = student1.semester;
 
     if (!semester) {
       return res.status(400).json({ msg: "Semester is required" });
     }
 
     // Find the student and populate subject details
-    const student = await Student.findById(studentId).populate({
+    const newStudent = await student.findById(studentId).populate({
       path: "subjects.subject",
       match: { semester: Number(semester) }, // Filter subjects by semester
       select: "name semester", // Select only name and semester fields
     });
 
     // If student not found, return error
-    if (!student) {
+    if (!newStudent) {
       return res.status(404).json({ msg: "Student not found" });
     }
 
     // Filter out subjects that were not matched (i.e., not from the requested semester)
-    const filteredMarks = student.subjects
+    const filteredMarks = newStudent.subjects
       .filter((sub) => sub.subject !== null) // Remove unmatched subjects
       .map((sub) => ({
         subject: sub.subject.name, // Subject name from populated data
@@ -138,6 +137,7 @@ const getMarks = async (req, res) => {
 
     return res.status(200).json({
       msg: `Marks for Semester ${semester} retrieved successfully`,
+      semester: semester,
       marks: filteredMarks,
     });
   } catch (error) {
@@ -147,5 +147,40 @@ const getMarks = async (req, res) => {
     });
   }
 };
-
-export { loginHandler, getTimeTable, getStudent, getMarks };
+const getSubject = async (req, res) => {
+  try {
+    const studentId = req.id;
+    const studentData = await student.findOne({ _id: studentId });
+    if (!studentData) {
+      return res.status(400).json({ msg: "Student not found" });
+    }
+    const semester = studentData.semester;
+    const subjectList = await subject.find({ semester: semester });
+    return res
+      .status(200)
+      .json({ msg: "Subjects retrieved successfully", subjectList });
+  } catch (error) {
+    console.error("Error fetching subjects:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+const getMaterial = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const materialList = await material.find({ subject: id });
+    return res
+      .status(200)
+      .json({ msg: "Materials retrieved successfully", materialList });
+  } catch (error) {
+    console.error("Error fetching materials:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+export {
+  loginHandler,
+  getTimeTable,
+  getStudent,
+  getMarks,
+  getSubject,
+  getMaterial,
+};

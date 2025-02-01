@@ -67,7 +67,7 @@ const getNotice = async(req,res)=>{
             const notices = await notice.find({
                 $or: [
                     { noticeFrom: "faculty" }, 
-                    { noticeTo: "faculty" },  
+                    { noticeTo: "faculty" },
                     { noticeTo: "all" }       
                 ]
             });

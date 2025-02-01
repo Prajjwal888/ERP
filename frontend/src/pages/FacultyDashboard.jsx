@@ -1,26 +1,28 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
-import UploadTimetable from "../components/faculty/UploadTimetable";
-import UploadMaterial from "../components/faculty/UploadMaterial";
+import StudentDetails from "../components/faculty/StudentDetails";
+import FacultyProfile from "../components/faculty/FacultyProfile";
+import UploadMarks from "../components/faculty/UploadMarks";
+import FacultyNotice from "../components/faculty/FacultyNotice";
 
 const FacultyDashboard = () => {
   const [activeTab, setActiveTab] = useState("Profile");
 
   const renderSection = () => {
-  //   switch (activeTab) {
-  //     case "Profile":
-  //       return <Profile />;
-  //     case "StudentInfo":
-  //       return <Notice />;
-  //     case "UploadMarks":
-  //       return <Notice />;
-  //     case "Timetable":
-  //       return <Profile />;
-  //     case "Notice":
-  //       return <Notice />;
-  //     case "Material":
-  //       return <Notice />;
+    switch (activeTab) {
+      case "Profile":
+        return <FacultyProfile />;
+      case "Student Info":
+        return <StudentDetails />;
+      case "Upload Marks":
+        return <UploadMarks />;
+      case "Timetable":
+        return <Profile />;
+      case "Notice":
+        return <FacultyNotice />;
+      case "Material":
+        return <Notice />;
 
   //     default:
   //       return <div>Select a section to view.</div>;
