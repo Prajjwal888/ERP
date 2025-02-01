@@ -24,9 +24,9 @@ const FacultyDashboard = () => {
       case "Material":
         return <Notice />;
 
-      default:
-        return <div>Select a section to view.</div>;
-    }
+  //     default:
+  //       return <div>Select a section to view.</div>;
+  //   }
   };
   return (
     <>
@@ -39,7 +39,11 @@ const FacultyDashboard = () => {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-        <div className="section-content">{renderSection()}</div>
+        <div className="section-content">{renderSection()}
+{/* <UploadMaterial></UploadMaterial> */}
+<UploadTimetable></UploadTimetable>
+
+        </div>
       </div>
     </>
   );
