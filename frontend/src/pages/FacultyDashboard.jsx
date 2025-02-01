@@ -1,28 +1,30 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
+import UploadTimetable from "../components/faculty/UploadTimetable";
+import UploadMaterial from "../components/faculty/UploadMaterial";
 
 const FacultyDashboard = () => {
   const [activeTab, setActiveTab] = useState("Profile");
 
   const renderSection = () => {
-    switch (activeTab) {
-      case "Profile":
-        return <Profile />;
-      case "StudentInfo":
-        return <Notice />;
-      case "UploadMarks":
-        return <Notice />;
-      case "Timetable":
-        return <Profile />;
-      case "Notice":
-        return <Notice />;
-      case "Material":
-        return <Notice />;
+  //   switch (activeTab) {
+  //     case "Profile":
+  //       return <Profile />;
+  //     case "StudentInfo":
+  //       return <Notice />;
+  //     case "UploadMarks":
+  //       return <Notice />;
+  //     case "Timetable":
+  //       return <Profile />;
+  //     case "Notice":
+  //       return <Notice />;
+  //     case "Material":
+  //       return <Notice />;
 
-      default:
-        return <div>Select a section to view.</div>;
-    }
+  //     default:
+  //       return <div>Select a section to view.</div>;
+  //   }
   };
   return (
     <>
@@ -35,7 +37,11 @@ const FacultyDashboard = () => {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-        <div className="section-content">{renderSection()}</div>
+        <div className="section-content">{renderSection()}
+{/* <UploadMaterial></UploadMaterial> */}
+<UploadTimetable></UploadTimetable>
+
+        </div>
       </div>
     </>
   );
