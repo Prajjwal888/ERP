@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import { IdCard, Phone, Mail } from "lucide-react";
 import axios from "axios";
-const StudentProfile = () => {
+const FacultyProfile = () => {
   const [data, setData] = useState({});
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/student/getStudent",
+          "http://localhost:4000/api/faculty/getFaculty",
           {
             headers: {
-              authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
-        setData(response.data.newStudent);
+        // console.log(response.data);
+        setData(response.data);
       } catch (error) {
         console.log(error.response?.data?.msg || error);
       }
@@ -24,7 +25,7 @@ const StudentProfile = () => {
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold border-l-4 border-red-500 pl-3 text-gray-800 mb-6">
-        Student Profile
+        Faculty Profile
       </h1>
       <div className="bg-white rounded-lg shadow-lg p-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -33,7 +34,7 @@ const StudentProfile = () => {
               <div className="flex items-center">
                 <IdCard className="w-6 h-6 text-blue-500 mr-4" />
                 <div>
-                  <p className="text-sm text-gray-500">Student ID</p>
+                  <p className="text-sm text-gray-500">Faculty ID</p>
                   <p className="text-lg font-medium text-gray-900">
                     {data.loginid}
                   </p>
@@ -72,4 +73,4 @@ const StudentProfile = () => {
   );
 };
 
-export default StudentProfile;
+export default FacultyProfile;
