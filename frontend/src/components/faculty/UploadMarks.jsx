@@ -73,12 +73,13 @@ export default function UploadMarks() {
   };
 
   const submitMarks = async (id) => {
+    console.log(marks);
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/faculty/submitMarks",
+        "http://localhost:4000/api/faculty/addMarks",
         {
           studentId: id,
-          subjectId: subjects.find((s) => s.name === subject)?.id,
+          subjectName: subject,
           marks: marks[id],
         },
         {
@@ -109,11 +110,12 @@ export default function UploadMarks() {
       return;
     }
     setIsLoading(true);
+    console.log(branch, semester, subject);
     try {
-      const response = await axios.get(
-        "http://localhost:4000/api/faculty/getStudent",
+      const response = await axios.post(
+        "http://localhost:4000/api/faculty/renderStudent",
         {
-          params: { branch, semester, subject },
+          branch, semester, subjectName:subject
         },
         {
           headers: {
@@ -134,6 +136,10 @@ export default function UploadMarks() {
   };
 
   return (
+    <div className="p-8 bg-gray-100 min-h-screen">
+      <h1 className="text-3xl font-bold border-l-4 border-red-500 pl-3 text-gray-800 mb-6">
+        Upload Marks
+      </h1>
     <div className="max-w-6xl mx-auto w-full bg-white shadow-lg rounded-lg p-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="space-y-2">
@@ -212,11 +218,11 @@ export default function UploadMarks() {
           </div>
         </div>
       </div>
-
+      <div className="flex justify-center">
       <button
         onClick={loadStudentData}
         disabled={isLoading}
-        className="w-full md:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400 shadow-sm transition-colors duration-200"
+        className="w-full md:w-auto px-4 py-2 bg-[#007bff] text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400 shadow-sm transition-colors duration-200"
       >
         {isLoading ? (
           <>
@@ -227,7 +233,7 @@ export default function UploadMarks() {
           "Load Student Data"
         )}
       </button>
-
+      </div>
       {students.length > 0 && (
         <div className="mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
           <h3 className="text-xl font-semibold mb-2">Student List</h3>
@@ -262,30 +268,30 @@ export default function UploadMarks() {
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
               {students.map((student) => (
-                <tr key={student.id}>
+                <tr key={student._id}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {student.name}
+                    {student.firstName+" "+student.lastName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <input
                       type="number"
-                      value={marks[student.id] || ""}
+                      value={marks[student._id] || ""}
                       onChange={(e) =>
-                        handleMarkChange(student.id, e.target.value)
+                        handleMarkChange(student._id, e.target.value)
                       }
                       className="w-20 text-center border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
                     />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button
-                      onClick={() => submitMarks(student.id)}
+                      onClick={() => submitMarks(student._id)}
                       className="px-3 py-1 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 shadow-sm transition-colors duration-200"
                     >
                       Submit
                     </button>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-center">
-                    {submittedMarks[student.id] && (
+                    {submittedMarks[student._id] && (
                       <Check className="h-6 w-6 text-green-500 mx-auto" />
                     )}
                   </td>
@@ -295,6 +301,7 @@ export default function UploadMarks() {
           </table>
         </div>
       )}
+    </div>
     </div>
   );
 }

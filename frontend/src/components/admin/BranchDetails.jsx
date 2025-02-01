@@ -14,7 +14,7 @@ const BranchDetails = () => {
           "http://localhost:4000/api/admin/getBranch",
           {
             headers: {
-              authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );

@@ -4,7 +4,7 @@ import axios from "axios";
 
 const StudentNotices = () => {
   const [notices, setNotices] = useState([]);
-
+  // console.log(notices);
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(

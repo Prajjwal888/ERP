@@ -50,9 +50,10 @@ const StudentMaterial = () => {
     };
     fetchMaterials();
   }, [selectedSubject]);
-  const handleClick = (image) => {
+  const handleClick = (file) => {
+    console.log(file);
     const link = document.createElement('a');
-    const url= image.split("\\").pop();
+    const url= file.split("\\").pop();
     const imageUrl = `http://localhost:4000/uploads/${url}`;
     link.href = imageUrl;
     // link.download = `${semester}_sem_timetable.png`;
@@ -103,7 +104,7 @@ const StudentMaterial = () => {
                       {material.title}
                     </h3>
                   </div>
-                  <button onClick={()=>handleClick(material.image)} className="text-blue-500 font-medium hover:underline">
+                  <button onClick={()=>handleClick(material.file)} className="text-blue-500 font-medium hover:underline">
                     View
                   </button>
                 </div>

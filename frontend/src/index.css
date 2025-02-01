@@ -1,1 +1,9 @@
 @import "tailwindcss";
+button,
+a,
+select,
+input[type="file"],
+div[role="button"],
+.cursor-pointer {
+  cursor: pointer;
+}

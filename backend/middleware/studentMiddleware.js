@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { decode } from "jsonwebtoken";
 import student from "../models/studentModel.js"; // Assuming you have a student model
 
 const studentAuthMiddleware = async (req, res, next) => {
@@ -20,7 +20,7 @@ const studentAuthMiddleware = async (req, res, next) => {
     }
     // Attach the student details to the request object for further use
     req.id = foundStudent.id;
-    req.profile = foundStudent.profile;
+    req.user = foundStudent.profile;
     // Proceed to the next middleware or route handler
     next();
   } catch (error) {

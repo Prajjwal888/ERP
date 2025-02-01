@@ -26,7 +26,7 @@ const SubjectDetails = () => {
           "http://localhost:4000/api/admin/getBranch",
           {
             headers: {
-              authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
@@ -54,7 +54,7 @@ const SubjectDetails = () => {
         "http://localhost:4000/api/admin/addSubject",formData,
         {
           headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -71,7 +71,7 @@ const SubjectDetails = () => {
         "http://localhost:4000/api/admin/getSubject",searchParams,
         {
           headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -88,7 +88,7 @@ const SubjectDetails = () => {
         `http://localhost:4000/api/admin/deleteSubject/${id}`,
         {
           headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
