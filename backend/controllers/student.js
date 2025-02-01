@@ -45,7 +45,7 @@ const loginHandler = async (req, res) => {
         profile: existingStudent.profile, // Add the profile data here
       },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" } // Token expires in 1 hour
+      { expiresIn: "30d" } // Token expires in 1 hour
     );
 
     return res.status(200).json({

@@ -5,6 +5,8 @@ import StudentDetails from "../components/faculty/StudentDetails";
 import FacultyProfile from "../components/faculty/FacultyProfile";
 import UploadMarks from "../components/faculty/UploadMarks";
 import FacultyNotice from "../components/faculty/FacultyNotice";
+import UploadTimetable from "../components/faculty/UploadTimeTable";
+import UploadMaterial from "../components/faculty/UploadMaterial";
 
 const FacultyDashboard = () => {
   const [activeTab, setActiveTab] = useState("Profile");
@@ -18,11 +20,11 @@ const FacultyDashboard = () => {
       case "Upload Marks":
         return <UploadMarks />;
       case "Timetable":
-        return <Profile />;
+        return <UploadTimetable />;
       case "Notice":
         return <FacultyNotice />;
       case "Material":
-        return <Notice />;
+        return <UploadMaterial />;
 
       default:
         return <div>Select a section to view.</div>;

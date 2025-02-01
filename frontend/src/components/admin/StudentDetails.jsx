@@ -36,7 +36,7 @@ const StudentDetails = () => {
         newStudent,
         {
           headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -55,7 +55,7 @@ const StudentDetails = () => {
         { loginid: Number(searchEnrollmentNo) },
         {
           headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );

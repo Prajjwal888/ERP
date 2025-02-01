@@ -37,11 +37,12 @@ const StudentDetails = () => {
     }
   };
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen bg-gray-100 p-4">
+    <h1 className="text-3xl font-bold border-l-4 border-red-500 pl-3 text-gray-800 mb-6">
+      Student Information
+    </h1>
+    <div className="flex justify-center items-center">
       <div className="w-full max-w-2xl">
-        <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2 text-blue-600">
-          <Search className="w-6 h-6" /> Fetch Student Details
-        </h2>
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
           <div className="p-6">
             <p className="text-sm text-gray-600 mb-4">
@@ -113,6 +114,7 @@ const StudentDetails = () => {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 };

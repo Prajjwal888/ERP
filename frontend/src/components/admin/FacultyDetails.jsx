@@ -38,7 +38,7 @@ const FacultyDetails = () => {
         newFaculty,
         {
           headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );

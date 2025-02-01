@@ -7,7 +7,7 @@ const Profile = () => {
     const fetchData = async () => {
       const response = await axios.get('http://localhost:4000/api/admin/getProfile', {
         headers: {
-          authorization: `Bearer ${localStorage.getItem("token")}`
+          Authorization: `Bearer ${localStorage.getItem("token")}`
         }
       })
       setData(response.data.newAdmin);

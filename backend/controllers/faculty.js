@@ -111,16 +111,16 @@ const getStudent = async (req, res) => {
 const puttimeTable = async (req, res) => {
   try {
     const { branch, semester } = req.body;
-    const image = req.file ? req.file.path : null;
+    const file = req.file ? req.file.path : null;
 
-    if (!image) {
-      return res.status(400).json({ message: "Image is required" });
+    if (!file) {
+      return res.status(400).json({ message: "File is required" });
     }
 
     const newtimetable = new timeTable({
       branch,
       semester,
-      image,
+      file,
     });
     await newtimetable.save();
     res.status(201).json(newtimetable);
@@ -133,9 +133,9 @@ const puttimeTable = async (req, res) => {
 const putMaterial = async (req, res) => {
   try {
     const { title, subject: subjectName } = req.body;
-    const image = req.file ? req.file.path : null;
-    if (!image) {
-      return res.status(400).json({ message: "Image is required" });
+    const file = req.file ? req.file.path : null;
+    if (!file) {
+      return res.status(400).json({ message: "file is required" });
     }
 
     const facultyId = req.id;
@@ -156,7 +156,7 @@ const putMaterial = async (req, res) => {
     const newMaterial = new material({
       title,
       subject: subjectDoc._id,
-      image,
+      file,
     });
 
     await newMaterial.save();
@@ -178,9 +178,9 @@ const renderStudent = async (req, res) => {
 
   try {
     // Find the subject based on subjectName
-    const subject = await subject.findOne({ name: subjectName });
+    const subjectData = await subject.findOne({ name: subjectName });
 
-    if (!subject) {
+    if (!subjectData) {
       return res.status(404).json({ message: "Subject not found" });
     }
 
@@ -189,7 +189,7 @@ const renderStudent = async (req, res) => {
       .find({
         branch,
         semester,
-        "subjects.subject": subject._id, // Check if subject exists in the subjects array
+        "subjects.subject": subjectData._id, // Check if subject exists in the subjects array
       })
       .select("-password");
 
@@ -205,16 +205,28 @@ const renderStudent = async (req, res) => {
 };
 
 const addMarks = async (req, res) => {
-  const { studentId, subjectId, marks } = req.body;
+  const { studentId, subjectName, marks } = req.body;
   console.log(req.body);
+
   try {
+    // Fetch subject ID
+    const subjectDoc = await subject.findOne({ name: subjectName });
+    
+    if (!subjectDoc) {
+      return res.status(404).json({ message: "Subject not found" });
+    }
+
+    const subjectId = subjectDoc._id; // Correctly extracting _id
+
+    // Fetch student
     const student2 = await student.findById(studentId);
     if (!student2) {
       return res.status(404).json({ message: "Student not found" });
     }
 
+    // Find subject in student's subjects array
     const subjectIndex = student2.subjects.findIndex(
-      (sub) => sub.subject.toString() === subjectId
+      (sub) => sub.subject.toString() === subjectId.toString() // Convert to string for comparison
     );
 
     if (subjectIndex !== -1) {
@@ -231,6 +243,7 @@ const addMarks = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 const getBranch = async (req, res) => {
   try {
     const branches = await branch.find({}, "name"); // Fetch only names

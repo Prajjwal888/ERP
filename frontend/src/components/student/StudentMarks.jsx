@@ -9,7 +9,7 @@ const StudentMarks = () => {
         "http://localhost:4000/api/student/getMarks",
         {
           headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );

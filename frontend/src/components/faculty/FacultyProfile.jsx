@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IdCard, Phone, Mail } from "lucide-react";
+import { IdCard, Phone, Mail, UserRound, Crown } from "lucide-react";
 import axios from "axios";
 const FacultyProfile = () => {
   const [data, setData] = useState({});
@@ -31,6 +31,15 @@ const FacultyProfile = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between">
           <div className="flex-1 mb-6 md:mb-0">
             <div className="space-y-6">
+            <div className="flex items-center">
+                <UserRound className="w-6 h-6 text-blue-500 mr-4" />
+                <div>
+                  <p className="text-sm text-gray-500">Faculty Name</p>
+                  <p className="text-lg font-medium text-gray-900">
+                    {data.firstName} {data.middleName} {data.lastName}
+                  </p>
+                </div>
+              </div>
               <div className="flex items-center">
                 <IdCard className="w-6 h-6 text-blue-500 mr-4" />
                 <div>
@@ -58,6 +67,15 @@ const FacultyProfile = () => {
                   </p>
                 </div>
               </div>
+              <div className="flex items-center">
+                <Crown className="w-6 h-6 text-blue-500 mr-4" />
+                <div>
+                  <p className="text-sm text-gray-500">Post</p>
+                  <p className="text-lg font-medium text-gray-900">
+                    {data.post}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
           <div className="relative w-48 h-48 rounded-full overflow-hidden shadow-md">
