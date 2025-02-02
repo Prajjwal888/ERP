@@ -101,7 +101,7 @@ const StudentDetails = () => {
                   { label: "Email", value: student.email },
                   {
                     label: "Phone No",
-                    value: student.phoneNo || "Not Available",
+                    value: student.phoneNumber || "Not Available",
                   },
                 ].map((item, index) => (
                   <div key={index} className="flex flex-col">
