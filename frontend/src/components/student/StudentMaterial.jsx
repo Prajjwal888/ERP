@@ -54,7 +54,7 @@ const StudentMaterial = () => {
     console.log(file);
     const link = document.createElement('a');
     const url= file.split("\\").pop();
-    const imageUrl = `https://erp-sxpm.onrender.com/uploads/${url}`;
+    const imageUrl = `https://erp-sxpm.onrender.com/${url}`;
     link.href = imageUrl;
     // link.download = `${semester}_sem_timetable.png`;
     link.click();
