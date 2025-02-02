@@ -175,11 +175,12 @@ const putMaterial = async (req, res) => {
 
 const renderStudent = async (req, res) => {
   const { branch, semester, subjectName } = req.body;
-
+  console.log(req.body)
+  console.log(semester);
   try {
     // Find the subject based on subjectName
     const subjectData = await subject.findOne({ name: subjectName });
-
+    
     if (!subjectData) {
       return res.status(404).json({ message: "Subject not found" });
     }
@@ -192,7 +193,7 @@ const renderStudent = async (req, res) => {
         "subjects.subject": subjectData._id, // Check if subject exists in the subjects array
       })
       .select("-password");
-
+    console.log(students);
     if (students.length === 0) {
       return res.status(404).json({ message: "No students found" });
     }
@@ -203,7 +204,6 @@ const renderStudent = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
 const addMarks = async (req, res) => {
   const { studentId, subjectName, marks } = req.body;
   console.log(req.body);
