@@ -202,7 +202,7 @@ const addStudent = async (req, res) => {
     email: z.string().email(),
     phoneNumber: z.number().int(),
     semester: z.number().int(),
-    branch: z.string().min(1),
+    branch: z.string().min(1), // Assuming branch is still a string input
     gender: z.enum(["Male", "Female", "Other"]),
     profile: z.string().min(1),
   });
@@ -230,11 +230,24 @@ const addStudent = async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create the new student
+    // Retrieve the ObjectId for the branch (assuming you have a `Branch` model)
+    const existingbranch = await branch.findOne({ name: studentData.branch });
+    if (!existingbranch) {
+      return res.status(400).json({
+        msg: "Invalid branch",
+      });
+    }
+
+    // Retrieve all subjects for the branch and semester
+    const allSubjects = await subject.find({ branch: existingbranch._id, semester: studentData.semester }).select("_id");
+    
+    // Create the new student with subjects
     const newStudent = await student.create({
       loginid,
       password: hashedPassword,
       ...studentData,
+      branch: existingbranch.name, // Set branch to the ObjectId
+      subjects: allSubjects.map((subj) => ({ subject: subj._id, marks: null }))
     });
 
     return res.status(201).json({
@@ -247,7 +260,8 @@ const addStudent = async (req, res) => {
         email: newStudent.email,
         semester: newStudent.semester,
         branch: newStudent.branch,
-      }, // Returning only the required fields in the response
+        subjects: newStudent.subjects,
+      },
     });
   } catch (e) {
     return res.status(500).json({
