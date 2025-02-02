@@ -34,7 +34,7 @@ const FacultyDetails = () => {
     console.log(newFaculty);
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/admin/addFaculty",
+        "/api/admin/addFaculty",
         newFaculty,
         {
           headers: {
@@ -53,7 +53,7 @@ const FacultyDetails = () => {
   const handleSearch = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/admin/getFaculty",
+        "/api/admin/getFaculty",
         { loginid: Number(loginId) },
         {
           headers: {

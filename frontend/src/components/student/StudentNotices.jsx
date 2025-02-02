@@ -8,7 +8,7 @@ const StudentNotices = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:4000/api/student/getNotice",
+        "/api/student/getNotice",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

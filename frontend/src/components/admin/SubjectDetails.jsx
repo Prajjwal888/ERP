@@ -23,7 +23,7 @@ const SubjectDetails = () => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/admin/getBranch",
+          "/api/admin/getBranch",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -51,7 +51,7 @@ const SubjectDetails = () => {
     formData.semester=Number(formData.semester);
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/admin/addSubject",formData,
+        "/api/admin/addSubject",formData,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -68,7 +68,7 @@ const SubjectDetails = () => {
   const handleSearch = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/admin/getSubject",searchParams,
+        "/api/admin/getSubject",searchParams,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -85,7 +85,7 @@ const SubjectDetails = () => {
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:4000/api/admin/deleteSubject/${id}`,
+        `/api/admin/deleteSubject/${id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -5,7 +5,7 @@ const Profile = () => {
   const [data,setData]=useState({});
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get('http://localhost:4000/api/admin/getProfile', {
+      const response = await axios.get('/api/admin/getProfile', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }

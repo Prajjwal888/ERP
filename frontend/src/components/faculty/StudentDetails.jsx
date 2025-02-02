@@ -15,7 +15,7 @@ const StudentDetails = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/faculty/getStudent",
+        "/api/faculty/getStudent",
         {
           loginid: scholarNo,
         },

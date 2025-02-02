@@ -7,7 +7,7 @@ const FacultyProfile = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/faculty/getFaculty",
+          "/api/faculty/getFaculty",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

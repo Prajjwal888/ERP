@@ -13,7 +13,7 @@ const Login = ({ activeSection }) => {
     const loginid = Number(loginId);
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/${section}/login`,
+        `/api/${section}/login`,
         { loginid, password }
       );
       if (!localStorage.getItem("token")) {

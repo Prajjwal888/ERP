@@ -11,7 +11,7 @@ const BranchDetails = () => {
     const fetchBranches = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/admin/getBranch",
+          "/api/admin/getBranch",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -35,7 +35,7 @@ const BranchDetails = () => {
     if (!branchName) return;
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/admin/addBranch",
+        "/api/admin/addBranch",
         { name: branchName },
         {
           headers: {
@@ -57,7 +57,7 @@ const BranchDetails = () => {
 
   const deleteBranch = async (id) => {
     try {
-      await axios.delete(`http://localhost:4000/api/admin/deleteBranch/${id}`, {
+      await axios.delete(`/api/admin/deleteBranch/${id}`, {
         headers: {
           authorization: `Bearer ${localStorage.getItem("token")}`,
         },

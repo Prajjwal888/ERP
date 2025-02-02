@@ -31,7 +31,7 @@ const FacultyDetails = () => {
     console.log(newAdmin);
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/admin/addAdmin",
+        "/api/admin/addAdmin",
         newAdmin,
         {
           headers: {
@@ -50,7 +50,7 @@ const FacultyDetails = () => {
   const handleSearch = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/admin/getAdmin",
+        "/api/admin/getAdmin",
         { loginid: Number(loginId) },
         {
           headers: {

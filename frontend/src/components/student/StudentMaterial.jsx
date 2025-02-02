@@ -10,7 +10,7 @@ const StudentMaterial = () => {
     const fetchSubjects = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/student/getSubject",
+          "/api/student/getSubject",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -34,7 +34,7 @@ const StudentMaterial = () => {
     const fetchMaterials = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/student/getMaterial/${selectedSubject}`,
+          `/api/student/getMaterial/${selectedSubject}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -54,7 +54,7 @@ const StudentMaterial = () => {
     console.log(file);
     const link = document.createElement('a');
     const url= file.split("\\").pop();
-    const imageUrl = `http://localhost:4000/uploads/${url}`;
+    const imageUrl = `/uploads/${url}`;
     link.href = imageUrl;
     // link.download = `${semester}_sem_timetable.png`;
     link.click();

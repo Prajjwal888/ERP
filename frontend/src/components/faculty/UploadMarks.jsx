@@ -28,7 +28,7 @@ export default function UploadMarks() {
   const fetchBranches = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/api/faculty/getBranch",
+        "/api/faculty/getBranch",
         {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -48,7 +48,7 @@ export default function UploadMarks() {
   const fetchSubjects = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/faculty/getSubject",
+        "/api/faculty/getSubject",
         {
           branchName: branch,
           semester: Number(semester),
@@ -76,7 +76,7 @@ export default function UploadMarks() {
     console.log(marks);
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/faculty/addMarks",
+        "/api/faculty/addMarks",
         {
           studentId: id,
           subjectName: subject,
@@ -113,7 +113,7 @@ export default function UploadMarks() {
     console.log(branch, semester, subject);
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/faculty/renderStudent",
+        "/api/faculty/renderStudent",
         {
           branch, semester, subjectName:subject
         },

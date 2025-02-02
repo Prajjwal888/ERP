@@ -6,7 +6,7 @@ const StudentMarks = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:4000/api/student/getMarks",
+        "/api/student/getMarks",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

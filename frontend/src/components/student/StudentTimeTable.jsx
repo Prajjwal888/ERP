@@ -8,7 +8,7 @@ const StudentTimeTable = () => {
         const fetchTimeTable = async () => {
           try {
             const response = await axios.get(
-              "http://localhost:4000/api/student/getTimeTable",
+              "/api/student/getTimeTable",
               {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -16,7 +16,7 @@ const StudentTimeTable = () => {
               }
             );
             const fileName = response.data.timetable.image.split("\\").pop();
-            setImageUrl(`http://localhost:4000/uploads/${fileName}`);
+            setImageUrl(`/uploads/${fileName}`);
             setSemester(response.data.semester);
           } catch (error) {
             console.log(error.response?.data?.msg || error);

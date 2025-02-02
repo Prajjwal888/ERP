@@ -20,7 +20,7 @@ const FacultyNotice = () => {
   const handleAddNotice = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/faculty/addNotice",
+        "/api/faculty/addNotice",
         formValues,
         {
           headers: {
@@ -43,7 +43,7 @@ const FacultyNotice = () => {
   const handleDeleteNotice = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:4000/api/faculty/deleteNotice/${id}`,
+        `/api/faculty/deleteNotice/${id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -61,7 +61,7 @@ const FacultyNotice = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:4000/api/faculty/getNotice",
+        "/api/faculty/getNotice",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

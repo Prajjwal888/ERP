@@ -14,7 +14,7 @@ export default function UploadTimetable() {
   useEffect(() => {
     const fetchBranches = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/faculty/getBranch", {
+        const response = await axios.get("/api/faculty/getBranch", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -49,7 +49,7 @@ export default function UploadTimetable() {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/faculty/uploadTimetable",
+        "/api/faculty/uploadTimetable",
         formData,
         {
           headers: {

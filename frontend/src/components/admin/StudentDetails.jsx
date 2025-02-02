@@ -32,7 +32,7 @@ const StudentDetails = () => {
     console.log(newStudent);
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/admin/addStudent",
+        "/api/admin/addStudent",
         newStudent,
         {
           headers: {
@@ -51,7 +51,7 @@ const StudentDetails = () => {
     try {
       console.log(searchEnrollmentNo);
       const response = await axios.post(
-        "http://localhost:4000/api/admin/getStudent",
+        "/api/admin/getStudent",
         { loginid: Number(searchEnrollmentNo) },
         {
           headers: {
