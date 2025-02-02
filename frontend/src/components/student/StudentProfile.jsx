@@ -7,7 +7,7 @@ const StudentProfile = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "/api/student/getStudent",
+          "https://erp-sxpm.onrender.com/api/student/getStudent",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

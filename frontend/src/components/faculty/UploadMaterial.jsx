@@ -37,7 +37,7 @@ export default function UploadMaterial() {
     
 
     try {
-      await axios.post("/api/faculty/uploadMaterial", formData, {
+      await axios.post("https://erp-sxpm.onrender.com/api/faculty/uploadMaterial", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",

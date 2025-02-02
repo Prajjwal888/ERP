@@ -8,7 +8,7 @@ const StudentNotices = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "/api/student/getNotice",
+        "https://erp-sxpm.onrender.com/api/student/getNotice",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

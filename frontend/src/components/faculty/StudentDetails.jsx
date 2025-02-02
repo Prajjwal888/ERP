@@ -15,7 +15,7 @@ const StudentDetails = () => {
 
     try {
       const response = await axios.post(
-        "/api/faculty/getStudent",
+        "https://erp-sxpm.onrender.com/api/faculty/getStudent",
         {
           loginid: scholarNo,
         },

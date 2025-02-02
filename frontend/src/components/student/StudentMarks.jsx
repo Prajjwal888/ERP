@@ -6,7 +6,7 @@ const StudentMarks = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "/api/student/getMarks",
+        "https://erp-sxpm.onrender.com/api/student/getMarks",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -20,7 +20,7 @@ const FacultyNotice = () => {
   const handleAddNotice = async () => {
     try {
       const response = await axios.post(
-        "/api/faculty/addNotice",
+        "https://erp-sxpm.onrender.com/api/faculty/addNotice",
         formValues,
         {
           headers: {
@@ -43,7 +43,7 @@ const FacultyNotice = () => {
   const handleDeleteNotice = async (id) => {
     try {
       const response = await axios.delete(
-        `/api/faculty/deleteNotice/${id}`,
+        `https://erp-sxpm.onrender.com/api/faculty/deleteNotice/${id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -61,7 +61,7 @@ const FacultyNotice = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "/api/faculty/getNotice",
+        "https://erp-sxpm.onrender.com/api/faculty/getNotice",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

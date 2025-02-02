@@ -32,7 +32,7 @@ const StudentDetails = () => {
     console.log(newStudent);
     try {
       const response = await axios.post(
-        "/api/admin/addStudent",
+        "https://erp-sxpm.onrender.com/api/admin/addStudent",
         newStudent,
         {
           headers: {
@@ -51,7 +51,7 @@ const StudentDetails = () => {
     try {
       console.log(searchEnrollmentNo);
       const response = await axios.post(
-        "/api/admin/getStudent",
+        "https://erp-sxpm.onrender.com/api/admin/getStudent",
         { loginid: Number(searchEnrollmentNo) },
         {
           headers: {

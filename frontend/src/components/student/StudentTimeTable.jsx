@@ -8,7 +8,7 @@ const StudentTimeTable = () => {
         const fetchTimeTable = async () => {
           try {
             const response = await axios.get(
-              "/api/student/getTimeTable",
+              "https://erp-sxpm.onrender.com/api/student/getTimeTable",
               {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -16,7 +16,7 @@ const StudentTimeTable = () => {
               }
             );
             const fileName = response.data.timetable.image.split("\\").pop();
-            setImageUrl(`/uploads/${fileName}`);
+            setImageUrl(`https://erp-sxpm.onrender.com/uploads/${fileName}`);
             setSemester(response.data.semester);
           } catch (error) {
             console.log(error.response?.data?.msg || error);

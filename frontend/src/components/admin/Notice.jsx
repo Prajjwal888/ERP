@@ -21,7 +21,7 @@ const Notice = () => {
   const handleAddNotice = async () => {
     try {
       const response = await axios.post(
-        "/api/admin/addNotice",
+        "https://erp-sxpm.onrender.com/api/admin/addNotice",
         formValues,
         {
           headers: {
@@ -45,7 +45,7 @@ const Notice = () => {
   const handleDeleteNotice = async (noticeId) => {
     try {
       const response = await axios.delete(
-        `/api/admin/deleteNotice/${noticeId}`,
+        `https://erp-sxpm.onrender.com/api/admin/deleteNotice/${noticeId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -63,7 +63,7 @@ const Notice = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "/api/admin/getNotice",
+        "https://erp-sxpm.onrender.com/api/admin/getNotice",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -34,7 +34,7 @@ const FacultyDetails = () => {
     console.log(newFaculty);
     try {
       const response = await axios.post(
-        "/api/admin/addFaculty",
+        "https://erp-sxpm.onrender.com/api/admin/addFaculty",
         newFaculty,
         {
           headers: {
@@ -53,7 +53,7 @@ const FacultyDetails = () => {
   const handleSearch = async () => {
     try {
       const response = await axios.post(
-        "/api/admin/getFaculty",
+        "https://erp-sxpm.onrender.com/api/admin/getFaculty",
         { loginid: Number(loginId) },
         {
           headers: {

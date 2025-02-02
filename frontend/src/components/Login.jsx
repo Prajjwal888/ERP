@@ -13,7 +13,7 @@ const Login = ({ activeSection }) => {
     const loginid = Number(loginId);
     try {
       const response = await axios.post(
-        `/api/${section}/login`,
+        `https://erp-sxpm.onrender.com/api/${section}/login`,
         { loginid, password }
       );
       if (!localStorage.getItem("token")) {

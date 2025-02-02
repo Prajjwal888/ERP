@@ -23,7 +23,7 @@ const SubjectDetails = () => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "/api/admin/getBranch",
+          "https://erp-sxpm.onrender.com/api/admin/getBranch",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -51,7 +51,7 @@ const SubjectDetails = () => {
     formData.semester=Number(formData.semester);
     try {
       const response = await axios.post(
-        "/api/admin/addSubject",formData,
+        "https://erp-sxpm.onrender.com/api/admin/addSubject",formData,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -68,7 +68,7 @@ const SubjectDetails = () => {
   const handleSearch = async () => {
     try {
       const response = await axios.post(
-        "/api/admin/getSubject",searchParams,
+        "https://erp-sxpm.onrender.com/api/admin/getSubject",searchParams,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -85,7 +85,7 @@ const SubjectDetails = () => {
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
-        `/api/admin/deleteSubject/${id}`,
+        `https://erp-sxpm.onrender.com/api/admin/deleteSubject/${id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

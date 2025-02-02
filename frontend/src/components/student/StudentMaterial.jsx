@@ -10,7 +10,7 @@ const StudentMaterial = () => {
     const fetchSubjects = async () => {
       try {
         const response = await axios.get(
-          "/api/student/getSubject",
+          "https://erp-sxpm.onrender.com/api/student/getSubject",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -34,7 +34,7 @@ const StudentMaterial = () => {
     const fetchMaterials = async () => {
       try {
         const response = await axios.get(
-          `/api/student/getMaterial/${selectedSubject}`,
+          `https://erp-sxpm.onrender.com/api/student/getMaterial/${selectedSubject}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -54,7 +54,7 @@ const StudentMaterial = () => {
     console.log(file);
     const link = document.createElement('a');
     const url= file.split("\\").pop();
-    const imageUrl = `/uploads/${url}`;
+    const imageUrl = `https://erp-sxpm.onrender.com/uploads/${url}`;
     link.href = imageUrl;
     // link.download = `${semester}_sem_timetable.png`;
     link.click();

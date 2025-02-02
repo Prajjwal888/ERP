@@ -7,7 +7,7 @@ const FacultyProfile = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "/api/faculty/getFaculty",
+          "https://erp-sxpm.onrender.com/api/faculty/getFaculty",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

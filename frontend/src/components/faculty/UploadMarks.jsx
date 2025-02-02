@@ -28,7 +28,7 @@ export default function UploadMarks() {
   const fetchBranches = async () => {
     try {
       const response = await axios.get(
-        "/api/faculty/getBranch",
+        "https://erp-sxpm.onrender.com/api/faculty/getBranch",
         {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -48,7 +48,7 @@ export default function UploadMarks() {
   const fetchSubjects = async () => {
     try {
       const response = await axios.post(
-        "/api/faculty/getSubject",
+        "https://erp-sxpm.onrender.com/api/faculty/getSubject",
         {
           branchName: branch,
           semester: Number(semester),
@@ -76,7 +76,7 @@ export default function UploadMarks() {
     console.log(marks);
     try {
       const response = await axios.post(
-        "/api/faculty/addMarks",
+        "https://erp-sxpm.onrender.com/api/faculty/addMarks",
         {
           studentId: id,
           subjectName: subject,
@@ -113,7 +113,7 @@ export default function UploadMarks() {
     console.log(branch, semester, subject);
     try {
       const response = await axios.post(
-        "/api/faculty/renderStudent",
+        "https://erp-sxpm.onrender.com/api/faculty/renderStudent",
         {
           branch, semester, subjectName:subject
         },
