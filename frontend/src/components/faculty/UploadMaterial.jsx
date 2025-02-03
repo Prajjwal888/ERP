@@ -1,21 +1,53 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function UploadMaterial() {
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
+  const [subjects, setSubjects] = useState([]);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
 
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      try {
+        const response = await axios.get(
+          "https://erp-sxpm.onrender.com/api/faculty/getFacultySubjects",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setSubjects(response.data);
+      } catch (e) {
+        setError(
+          e.response?.data?.message ||
+            "An error occurred while fetching subjects"
+        );
+        console.error("Error details:", e);
+      }
+    };
+
+    fetchSubjects();
+  }, []);
+
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
-      const allowedTypes = ["image/png", "image/jpeg", "application/pdf", "video/mp4"];
+      const allowedTypes = [
+        "image/png",
+        "image/jpeg",
+        "application/pdf",
+        "video/mp4",
+      ];
       if (!allowedTypes.includes(selectedFile.type)) {
-        toast.error("Invalid file type. Only PNG, JPG, PDF, and MP4 are allowed.");
+        toast.error(
+          "Invalid file type. Only PNG, JPG, PDF, and MP4 are allowed."
+        );
         return;
       }
       setFile(selectedFile);
@@ -34,18 +66,27 @@ export default function UploadMaterial() {
     formData.append("title", title);
     formData.append("subject", subject);
     formData.append("file", file);
-    
 
     try {
-      await axios.post("https://erp-sxpm.onrender.com/api/faculty/uploadMaterial", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.post(
+        "https://erp-sxpm.onrender.com/api/faculty/uploadMaterial",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       toast.success("Material uploaded successfully");
+      setTitle("");
+      setSubject("");
+      setFile(null);
     } catch (e) {
-      setError(e.response?.data?.message || "An error occurred while uploading material");
+      setError(
+        e.response?.data?.message ||
+          "An error occurred while uploading material"
+      );
       console.error("Error details:", e);
     } finally {
       setLoading(false);
@@ -60,7 +101,9 @@ export default function UploadMaterial() {
       {error && <p className="text-red-500">{error}</p>}
       <div className="flex flex-col items-center">
         <div className="max-w-lg w-full p-8 bg-gray-50 rounded-lg shadow-lg text-center flex flex-col justify-center min-h-[500px]">
-          <h2 className="text-2xl font-semibold mb-6 text-gray-800">Upload Material</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+            Upload Material
+          </h2>
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             <input
               type="text"
@@ -76,10 +119,15 @@ export default function UploadMaterial() {
               onChange={(e) => setSubject(e.target.value)}
             >
               <option value="">-- Select Subject --</option>
-              <option value="DBMS">DBMS</option>
-              <option value="ADA">ADA</option>
-              <option value="Chemistry">Chemistry</option>
-              <option value="Computer Science">Computer Science</option>
+              {subjects.length > 0 ? (
+                subjects.map((subj, index) => (
+                  <option key={index} value={subj.name}>
+                    {subj.name}
+                  </option>
+                ))
+              ) : (
+                <option disabled>Loading subjects...</option>
+              )}
             </select>
 
             <div className="flex flex-col items-center">
@@ -96,7 +144,11 @@ export default function UploadMaterial() {
                 />
                 <span>📂 Upload Material (JPG, PNG, PDF, MP4)</span>
               </div>
-              {file && <p className="text-sm text-gray-600 mt-2">Selected file: {file.name}</p>}
+              {file && (
+                <p className="text-sm text-gray-600 mt-2">
+                  Selected file: {file.name}
+                </p>
+              )}
             </div>
 
             <button
