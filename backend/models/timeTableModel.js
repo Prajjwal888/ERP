@@ -10,7 +10,7 @@ const timeTableSchema = new mongoose.Schema({
         required:true,
       }    ,
 
-      image:
+      file:
       {
         type:String,
         required:false,
