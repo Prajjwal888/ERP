@@ -51,12 +51,10 @@ const StudentMaterial = () => {
     fetchMaterials();
   }, [selectedSubject]);
   const handleClick = (file) => {
-    console.log(file);
-    const link = document.createElement('a');
-    const url= file.split("\\").pop();
-    const imageUrl = `https://erp-sxpm.onrender.com/${url}`;
+    const link = document.createElement("a");
+    const imageUrl = `https://erp-sxpm.onrender.com/uploads/${file}`;
     link.href = imageUrl;
-    // link.download = `${semester}_sem_timetable.png`;
+    link.download = `sem_timetable.png`;
     link.click();
   };
   return (
@@ -104,7 +102,10 @@ const StudentMaterial = () => {
                       {material.title}
                     </h3>
                   </div>
-                  <button onClick={()=>handleClick(material.file)} className="text-blue-500 font-medium hover:underline">
+                  <button
+                    onClick={() => handleClick(material.file)}
+                    className="text-blue-500 font-medium hover:underline"
+                  >
                     View
                   </button>
                 </div>
