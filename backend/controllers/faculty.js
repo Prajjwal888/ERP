@@ -286,7 +286,16 @@ const getSubject = async (req, res) => {
     return res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
-
+const getFacultySubjects = async (req, res) => {
+  const facultyId = req.id;
+  try {
+    const subjects = await subject.find({ faculty: facultyId }, "name");
+    return res.status(200).json(subjects);
+  } catch (error) {
+    console.error("Error fetching subjects:", error);
+    return res.status(500).json({ message: "Server Error" });
+  }
+}
 export {
   loginHandler,
   getFaculty,
@@ -296,5 +305,6 @@ export {
   renderStudent,
   addMarks,
   getBranch,
-  getSubject
+  getSubject,
+  getFacultySubjects,
 };
