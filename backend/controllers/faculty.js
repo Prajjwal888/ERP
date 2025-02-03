@@ -111,7 +111,7 @@ const getStudent = async (req, res) => {
 const puttimeTable = async (req, res) => {
   try {
     const { branch, semester } = req.body;
-    const file = req.file ? req.file.path : null;
+    const file = req.file ? req.file.filename : null;
 
     if (!file) {
       return res.status(400).json({ message: "File is required" });
@@ -133,7 +133,7 @@ const puttimeTable = async (req, res) => {
 const putMaterial = async (req, res) => {
   try {
     const { title, subject: subjectName } = req.body;
-    const file = req.file ? req.file.path : null;
+    const file = req.file ? req.file.filename : null;
     if (!file) {
       return res.status(400).json({ message: "file is required" });
     }
