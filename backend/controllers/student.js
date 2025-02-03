@@ -72,7 +72,7 @@ const getTimeTable = async (req, res) => {
 
     const timetable = await timeTable
       .findOne({ branch, semester })
-      .select("image");
+      .select("file");
     if (!timetable) {
       return res.status(400).json("No timetable to show");
     }
