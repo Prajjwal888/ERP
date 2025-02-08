@@ -15,9 +15,7 @@ const StudentTimeTable = () => {
             },
           }
         );
-        console.log(response.data.timetable.file);
-        const fileName = response.data.timetable.file;
-        setImageUrl(`https://erp-sxpm.onrender.com/uploads/${fileName}`);
+        setImageUrl(response.data.timetable.file.url);
         setSemester(response.data.semester);
       } catch (error) {
         console.log(error.response?.data?.msg || error);
