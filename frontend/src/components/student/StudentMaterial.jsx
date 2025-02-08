@@ -41,7 +41,7 @@ const StudentMaterial = () => {
             },
           }
         );
-        console.log(response.data.materialList);
+        // console.log(response.data.materialList);
         setMaterials(response.data.materialList);
       } catch (error) {
         console.error("Error fetching materials:", error);
@@ -51,12 +51,25 @@ const StudentMaterial = () => {
     fetchMaterials();
   }, [selectedSubject]);
   const handleClick = (file) => {
-    const link = document.createElement("a");
-    const imageUrl = `https://erp-sxpm.onrender.com/uploads/${file}`;
-    link.href = imageUrl;
-    link.download = `sem_timetable.png`;
-    link.click();
+    // console.log(file);
+    if (!file || !file.url) {
+      console.error("Invalid file:", file);
+      return;
+    }
+    const fileUrl = file.url;
+    const isVideo = fileUrl.endsWith(".mp4");
+    if (isVideo) {
+      window.open(fileUrl, "_blank");
+    } else {
+      const link = document.createElement("a");
+      link.href = fileUrl;
+      link.download = file.filename || "download";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
+
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold border-l-4 border-red-500 pl-3 text-gray-800 mb-6">
@@ -92,24 +105,42 @@ const StudentMaterial = () => {
               {subjects.find((sub) => sub._id === selectedSubject)?.name}
             </h2>
             <div className="space-y-4">
-              {materials.map((material) => (
-                <div
-                  key={material._id}
-                  className="bg-gray-100 p-6 rounded-lg shadow-md border border-gray-200 flex items-center justify-between"
-                >
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-800">
-                      {material.title}
-                    </h3>
-                  </div>
-                  <button
-                    onClick={() => handleClick(material.file)}
-                    className="text-blue-500 font-medium hover:underline"
+              {materials.map((material) => {
+                const isVideo = material.file.url.endsWith(".mp4");
+                return (
+                  <div
+                    key={material._id}
+                    className="bg-gray-100 p-6 rounded-lg shadow-md border border-gray-200 flex items-center justify-between"
                   >
-                    View
-                  </button>
-                </div>
-              ))}
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-800">
+                        {material.title}
+                      </h3>
+                    </div>
+
+                    {isVideo ? (
+                      <video width="200" controls>
+                        <source src={material.file.url} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    ) : (
+                      <img
+                        src={material.file.url}
+                        alt="Uploaded File"
+                        width="100"
+                        className="rounded-lg shadow"
+                      />
+                    )}
+
+                    <button
+                      onClick={() => handleClick(material.file)}
+                      className="text-blue-500 font-medium hover:underline"
+                    >
+                      {isVideo ? "Open Video" : "Download"}
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
         ) : (
