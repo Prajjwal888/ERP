@@ -111,7 +111,10 @@ const getStudent = async (req, res) => {
 const puttimeTable = async (req, res) => {
   try {
     const { branch, semester } = req.body;
-    const file = req.file ? req.file.filename : null;
+    const file = {
+      url: req.file.path,
+      filename: req.file.filename,
+    };
 
     if (!file) {
       return res.status(400).json({ message: "File is required" });
@@ -133,7 +136,10 @@ const puttimeTable = async (req, res) => {
 const putMaterial = async (req, res) => {
   try {
     const { title, subject: subjectName } = req.body;
-    const file = req.file ? req.file.filename : null;
+    const file = {
+      url: req.file.path,
+      filename: req.file.filename,
+    };
     if (!file) {
       return res.status(400).json({ message: "file is required" });
     }
@@ -146,12 +152,9 @@ const putMaterial = async (req, res) => {
       return res.status(404).json({ message: "Subject not found." });
     }
     if (subjectDoc.faculty.toString() !== facultyId) {
-      return res
-        .status(403)
-        .json({
-          message:
-            "You are not authorized to upload material for this subject.",
-        });
+      return res.status(403).json({
+        message: "You are not authorized to upload material for this subject.",
+      });
     }
     const newMaterial = new material({
       title,
@@ -161,12 +164,10 @@ const putMaterial = async (req, res) => {
 
     await newMaterial.save();
 
-    res
-      .status(201)
-      .json({
-        message: "Material uploaded successfully!",
-        material: newMaterial,
-      });
+    res.status(201).json({
+      message: "Material uploaded successfully!",
+      material: newMaterial,
+    });
   } catch (error) {
     console.error("Error uploading material:", error);
     res.status(500).json({ message: "Server error. Please try again later." });
