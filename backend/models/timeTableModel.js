@@ -1,22 +1,21 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const timeTableSchema = new mongoose.Schema({
-    branch :{
-        type:String,
-        required:true,
-    },
-      semester:{
-        type:Number,
-        required:true,
-      }    ,
+  branch: {
+    type: String,
+    required: true,
+  },
+  semester: {
+    type: Number,
+    required: true,
+  },
 
-      file:
-      {
-        type:String,
-        required:false,
-      }
-})
+  file: {
+    url: String,
+    filename: String,
+  },
+});
 
-const timeTable =mongoose.model('timeTable',timeTableSchema);
+const timeTable = mongoose.model("timeTable", timeTableSchema);
 
 export default timeTable;
