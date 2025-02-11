@@ -6,7 +6,7 @@ import studentRoute from './routes/studentRoute.js'
 import { connectDB } from './config/db.js';
 import facultyroute from './routes/facultyRoute.js';
 const app = express();
-const PORT=4000||process.env.PORT;
+const PORT=process.env.PORT||4000;
 app.use(cors());
 app.use(express.json());
 dotenv.config();
