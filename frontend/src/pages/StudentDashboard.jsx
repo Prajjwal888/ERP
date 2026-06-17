@@ -6,6 +6,8 @@ import StudentNotices from '../components/student/StudentNotices'
 import StudentTimeTable from "../components/student/StudentTimeTable";
 import StudentMaterial from "../components/student/StudentMaterial";
 import StudentMarks from "../components/student/StudentMarks";
+import StudentChatbot from "../components/student/StudentChatbot";
+
 const StudentDashboard = () => {
   const [activeTab, setActiveTab] = useState("Profile");
 
@@ -21,6 +23,8 @@ const StudentDashboard = () => {
         return <StudentMaterial />;
       case "Marks":
         return <StudentMarks />;
+      case "Chatbot":
+        return <StudentChatbot />;
       default:
         return <div>Select a section to view.</div>;
     }
@@ -34,8 +38,6 @@ const StudentDashboard = () => {
       <div className="student-dashboard">
         <Navbar role="student" activeTab={activeTab} setActiveTab={setActiveTab}/>
         <div className="section-content">{renderSection()}</div>
-      </div>
-      <div>
       </div>
     </>
   );

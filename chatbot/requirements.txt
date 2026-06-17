@@ -1,0 +1,12 @@
+flask
+flask-cors
+gunicorn
+python-dotenv
+pymongo
+pdfplumber
+requests
+pinecone
+langchain
+langchain-core
+langchain-huggingface
+langchain-text-splitters

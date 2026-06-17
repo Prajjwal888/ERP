@@ -1,6 +1,7 @@
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import axios from "axios";
 import faculty from "../models/facultyModel.js";
 import student from "../models/studentModel.js";
 import timeTable from "../models/timeTableModel.js";
@@ -163,6 +164,14 @@ const putMaterial = async (req, res) => {
     });
 
     await newMaterial.save();
+
+    // index the new PDF into Pinecone in the background — don't block the upload response
+    const chatbotUrl = process.env.CHATBOT_URL || "https://chatbot-backend-nbz3.onrender.com";
+    axios.post(`${chatbotUrl}/ingest`, {
+      url: file.url,
+      title,
+      subject: subjectDoc.name,
+    }).catch((err) => console.error("Chatbot ingestion failed:", err.message));
 
     res.status(201).json({
       message: "Material uploaded successfully!",

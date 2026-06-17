@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, GraduationCap, Presentation, Book, Bell, ShieldCheck, BrainCircuit, ArchiveRestore, BadgePercent,Clock } from "lucide-react";
+import { User, GraduationCap, Presentation, Book, Bell, ShieldCheck, BrainCircuit, ArchiveRestore, BadgePercent, Clock, MessageCircle } from "lucide-react";
 import { admin, faculty, student } from '../data/dashboardData';
 
 const iconComponents = {
@@ -12,7 +12,8 @@ const iconComponents = {
   BrainCircuit,
   ArchiveRestore,
   Clock,
-  BadgePercent
+  BadgePercent,
+  MessageCircle
 };
 
 const Navbar = ({ role ,activeTab,setActiveTab}) => {

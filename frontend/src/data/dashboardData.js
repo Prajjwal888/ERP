@@ -22,7 +22,8 @@ const student = [
     { name: "Timetable", icon: "GraduationCap" },
     { name: "Marks", icon: "BadgePercent" },
     { name: "Material", icon: "ArchiveRestore" },
-    { name: "Notice", icon: "Bell" }
+    { name: "Notice", icon: "Bell" },
+    { name: "Chatbot", icon: "MessageCircle" }
 ];
 
 export { admin, faculty, student };
